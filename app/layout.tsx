@@ -35,9 +35,11 @@ const description =
   "Senior UI/UX Designer with 4 years of experience creating user-centered design solutions that enhance user experiences and drive business results.";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://figmaebae.com"),
   title: "Yashita, Senior UI/UX Designer",
   description,
   openGraph: { title: "Yashita, Senior UI/UX Designer", description, type: "website" },
+  twitter: { card: "summary_large_image", title: "Yashita, Senior UI/UX Designer", description },
 };
 
 export const viewport: Viewport = {
