@@ -543,26 +543,21 @@ html[data-theme="dark"] .tgl-theme .tgl-roll>span{transform:translateY(-16px)}
 .swap.go{animation:swap-spin .75s cubic-bezier(.6,-.1,.25,1.15)}
 @keyframes swap-spin{to{transform:rotate(360deg)}}
 
-/* Inspect switch: the page as a stack of layers. Off = one collapsed stack; on = the layers fan out and get scanned. */
-.lay{position:relative;flex:none;display:block;width:30px;height:28px}
-.lay i{position:absolute;display:block;height:7px;border-radius:2.5px;background:var(--ink);transition:top .55s cubic-bezier(.3,1.4,.4,1),left .55s cubic-bezier(.3,1.4,.4,1),width .55s cubic-bezier(.3,1.4,.4,1),opacity .3s,background-color .3s}
-.lay .l1{left:2px;top:12px;width:26px}
-.lay .l2{left:5px;top:9px;width:20px;opacity:.42}
-.lay .l3{left:8px;top:6px;width:14px;opacity:.22}
-.tgl-inspect:hover .lay .l2{top:6px}.tgl-inspect:hover .lay .l3{top:0}
-html:not([data-inspect="off"]) .lay .l1{left:2px;top:3px;width:24px}
-html:not([data-inspect="off"]) .lay .l2{left:8px;top:11px;width:20px;opacity:1;background:var(--muted)}
-html:not([data-inspect="off"]) .lay .l3{left:8px;top:19px;width:14px;opacity:1;background:var(--muted)}
-.lay::after{content:"";position:absolute;left:0;right:0;top:1px;height:10px;border-radius:3px;border:1.5px solid var(--sel);background:rgba(13,153,255,.16);opacity:0;transform:scale(.9);transition:opacity .3s .15s,transform .4s .15s cubic-bezier(.3,1.5,.4,1)}
-html:not([data-inspect="off"]) .lay::after{opacity:1;transform:none}
-@media (prefers-reduced-motion:no-preference){
-  html:not([data-inspect="off"]) .lay::after{animation:lay-scan 3.6s .8s ease-in-out infinite}
-}
-@keyframes lay-scan{0%,20%{top:1px}33%,53%{top:9px}66%,86%{top:17px}100%{top:1px}}
+/* Inspect switch: code brackets, drawn in the page ink (black in light mode, white in dark).
+   Off = "< >"; on = the slash draws through and the brackets open up to make room: "</>". */
+.cb{flex:none;display:block;width:30px;height:30px;color:var(--ink);overflow:visible;fill:none;stroke:currentColor;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round;transition:stroke-width .3s}
+.cb-l,.cb-r{transition:transform .5s cubic-bezier(.3,1.6,.4,1)}
+.cb-s{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .35s cubic-bezier(.5,0,.2,1)}
+html:not([data-inspect="off"]) .cb{stroke-width:1.8}
+html:not([data-inspect="off"]) .cb-l{transform:translateX(-1.5px)}
+html:not([data-inspect="off"]) .cb-r{transform:translateX(1.5px)}
+html:not([data-inspect="off"]) .cb-s{stroke-dashoffset:0;transition-delay:.12s}
+html[data-inspect="off"] .tgl-inspect:hover .cb-l{transform:translateX(-1.5px)}
+html[data-inspect="off"] .tgl-inspect:hover .cb-r{transform:translateX(1.5px)}
 /* sparkle burst fired from a toggle when it flips */
 .spk{position:fixed;left:0;top:0;z-index:60;pointer-events:none;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;background:var(--c,#fff);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%)}
 .spk.sq{clip-path:none;border-radius:2px;width:6px;height:6px;margin:-3px 0 0 -3px}
-@media (prefers-reduced-motion:reduce){.tgl-roll>span,.swap-a,.swap-b,.lay i,.lay::after{transition:none!important}.swap.go{animation:none}}
+@media (prefers-reduced-motion:reduce){.tgl-roll>span,.swap-a,.swap-b,.cb,.cb-l,.cb-r,.cb-s{transition:none!important}.swap.go{animation:none}}
 /* circular reveal when the theme flips (View Transitions) */
 html.vt .topbar{view-transition-name:topbar}
 ::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
