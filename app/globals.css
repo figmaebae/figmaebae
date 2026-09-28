@@ -242,6 +242,8 @@ h1{margin:0;font-size:clamp(3.25rem,12vw,5.5rem);font-weight:500;line-height:1;l
 .tm-track{display:flex;align-items:flex-start;width:max-content;padding:.75rem 0;
   animation:tm-scroll 38s linear infinite}
 @keyframes tm-scroll{to{transform:translateX(-50%)}}
+/* pause the marquee while a card is hovered so it can be read (mouse/trackpad only) */
+@media (hover:hover) and (pointer:fine){.tm-track:has(.tm-card:hover){animation-play-state:paused}}
 .tm-card{--bar:#B077DC;--dot:#E8CEF8;flex:none;margin:1em 1.625rem;width:min(27rem,82vw);height:19rem;display:flex;flex-direction:column;
   background:var(--surface);border:2px solid var(--ink);border-radius:16px;overflow:hidden;
   box-shadow:0 14px 22px -14px rgba(0,0,0,.25)}
