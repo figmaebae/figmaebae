@@ -230,10 +230,10 @@ h1{margin:0;font-size:clamp(3.25rem,12vw,5.5rem);font-weight:500;line-height:1;l
 .tm-marquee{margin-top:2.5rem;overflow:hidden;
   mask-image:linear-gradient(90deg,transparent 0,#000 3%,#000 97%,transparent 100%);
   -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 3%,#000 97%,transparent 100%)}
-.tm-track{display:flex;align-items:flex-start;width:max-content;gap:1.5rem;padding:.75rem 1.5rem;
+.tm-track{display:flex;align-items:flex-start;width:max-content;padding:.75rem 0;
   animation:tm-scroll 38s linear infinite}
 @keyframes tm-scroll{to{transform:translateX(-50%)}}
-.tm-card{--bar:#B077DC;--dot:#E8CEF8;flex:none;width:min(27rem,82vw);height:19rem;display:flex;flex-direction:column;
+.tm-card{--bar:#B077DC;--dot:#E8CEF8;flex:none;margin:1em 1.625rem;width:min(27rem,82vw);height:19rem;display:flex;flex-direction:column;
   background:#fff;border:2px solid var(--ink);border-radius:16px;overflow:hidden;
   box-shadow:0 14px 22px -14px rgba(0,0,0,.25)}
 .tm-c-pink{--bar:#E58FC2;--dot:#F9D6EC}
