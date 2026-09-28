@@ -14,7 +14,10 @@ character called Pixel.
 - `components/canvas-client.tsx` – client component that calls `initCanvas()`
 
 ## Design rules (keep these)
-- Minimal, off-white canvas `#F7F7F5` with a faint 24px dot grid. Light mode only.
+- Minimal, off-white canvas `#F7F7F5` with a faint 24px dot grid. Light by default, plus a dark theme
+  (`html[data-theme="dark"]` re-maps the tokens at the top of `globals.css`; use `var(--surface)`, `--hair`, etc.
+  instead of hard-coded colours). The top bar has two toggles: Dark mode ("swap colours" swatches, key X) and Inspect (layer stack, key I) (shows/hides the Layers +
+  Design panels, `html[data-inspect="off"]`). Every visit starts in light mode with the panels open; the choices are not saved between visits.
 - Colors: ink `#1C1C1E`, muted `#6F6F74`, Figma selection blue `#0D99FF`,
   component purple `#9747FF`, available green `#14AE5C`.
 - One UI typeface (Instrument Sans); Caveat only for handwritten notes.
