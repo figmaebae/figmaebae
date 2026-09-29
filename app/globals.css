@@ -646,7 +646,7 @@ html[data-theme="dark"] .panel,html[data-theme="dark"] .toolbar,html[data-theme=
 @media (min-width:1200px) and (hover:hover) and (pointer:fine){.pixel{right:268px}html[data-inspect="off"] .pixel{right:28px}}
 .px-bubble{position:absolute;right:6px;bottom:calc(100% + 6px);width:max-content;max-width:190px;padding:9px 12px 10px;background:var(--surface);border:1px solid var(--hair-2);border-radius:12px 12px 4px 12px;box-shadow:0 6px 18px rgba(0,0,0,.07);font:500 13px/1.35 var(--font);color:var(--ink);opacity:0;transform:translateY(6px) scale(.96);transform-origin:bottom right;transition:opacity .25s,transform .25s;pointer-events:none}
 .px-bubble.on{opacity:1;transform:none}
-@media (max-width:899px),(hover:none){.pixel{bottom:-96px}.px-bubble{right:calc(100% + 4px);bottom:22px;max-width:170px;font-size:12px;border-radius:12px 12px 4px 12px}}
+@media (max-width:899px),(hover:none){.pixel{position:fixed;right:14px;bottom:calc(78px + env(safe-area-inset-bottom,0px));width:56px}.pixel .px-svg{width:56px}.px-bubble{right:calc(100% + 4px);bottom:14px;max-width:170px;font-size:12px;border-radius:12px 12px 4px 12px}}
 @media (min-width:900px) and (hover:hover) and (pointer:fine){.px-bubble{max-width:190px}}
 /* idle: yawn, then sleep; waking is a gentle stretch */
 .pixel .px-svg{transition:transform .8s cubic-bezier(.3,1.1,.4,1)}
