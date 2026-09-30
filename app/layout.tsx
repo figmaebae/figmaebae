@@ -31,15 +31,58 @@ const instrumentSerif = Instrument_Serif({
   display: "swap",
 });
 
+const title = "Yashita, Senior UI/UX Designer";
 const description =
   "Senior UI/UX Designer with 4 years of experience creating user-centered design solutions that enhance user experiences and drive business results.";
+const siteUrl = "https://figmaebae.com";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://figmaebae.com"),
-  title: "Yashita, Senior UI/UX Designer",
+  metadataBase: new URL(siteUrl),
+  title,
   description,
-  openGraph: { title: "Yashita, Senior UI/UX Designer", description, type: "website" },
-  twitter: { card: "summary_large_image", title: "Yashita, Senior UI/UX Designer", description },
+  keywords: [
+    "Yashita",
+    "UI/UX Designer",
+    "UI Designer",
+    "UX Designer",
+    "Product Designer",
+    "Design Systems",
+    "Figma Designer",
+    "Portfolio",
+  ],
+  authors: [{ name: "Yashita", url: siteUrl }],
+  creator: "Yashita",
+  alternates: { canonical: "/" },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
+  openGraph: { title, description, url: siteUrl, siteName: title, type: "website", locale: "en_US" },
+  twitter: { card: "summary_large_image", title, description },
+};
+
+// Structured data: a Person entity (so search engines can associate this page with
+// Yashita by name, job title and social profiles) and a WebSite entity for the page
+// itself. Rendered as plain JSON in the initial server HTML — no client JS needed.
+const personLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Yashita",
+  jobTitle: "Senior UI/UX Designer",
+  description,
+  url: siteUrl,
+  image: `${siteUrl}/opengraph-image`,
+  email: "mailto:figmaebae@gmail.com",
+  sameAs: [
+    "https://www.linkedin.com/in/yashita-sharma-6721bb163/",
+    "https://x.com/Figmaebae",
+    "https://medium.com/@figmaebae",
+  ],
+  worksFor: { "@type": "Organization", name: "WASP", url: "https://waspmobile.com/" },
+};
+
+const websiteLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: title,
+  url: siteUrl,
 };
 
 export const viewport: Viewport = {
@@ -57,6 +100,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       suppressHydrationWarning
     >
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
+        />
         <noscript>
           <style>{"html.intro{overflow:auto}#intro{display:none}"}</style>
         </noscript>
