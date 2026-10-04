@@ -34,6 +34,8 @@ export default function BexCardCaseStudy() {
       {/* The root layout starts every page in the home page's "intro" state (scroll locked, animations paused).
           This page has no intro, so undo that from the first paint instead of waiting for the script. */}
       <style>{"html.intro{overflow:auto}html.intro-hold *,html.intro-hold *::before,html.intro-hold *::after{animation-play-state:running!important}"}</style>
+      {/* The case study opens with the Layers + Design panels closed (the Inspect toggle still opens them). Set before first paint so they don't flash. */}
+      <script dangerouslySetInnerHTML={{ __html: 'document.documentElement.dataset.inspect="off"' }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       <div style={{ display: "contents" }} dangerouslySetInnerHTML={{ __html: bexMarkup }} />
       <BexCardClient />
