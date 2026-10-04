@@ -12,11 +12,20 @@ character called Pixel.
 - `lib/markup.ts` – page HTML as a string (ported 1:1 from the approved preview)
 - `lib/canvas.js` – all interactions (vanilla JS, runs once on mount)
 - `components/canvas-client.tsx` – client component that calls `initCanvas()`
+- `lib/chrome.ts` – the markup every canvas page repeats (top bar toggles, link bar, cursor, Design panel); `lib/markup.ts` and the case study both build from it
+
+### Case studies
+Each case study is its own route under `app/case-studies/<slug>/` and reuses the home page's chrome and `lib/canvas.js`:
+- `page.tsx` (metadata + JSON-LD), `case-study.css` (layout + widgets, all prefixed `cs-`), `opengraph-image.tsx` (share image)
+- `lib/<slug>-markup.ts` builds the HTML (sections, Layers rows; ids are checked at load) and `lib/<slug>.js` holds the page's own interactions
+- images live in `public/case-studies/<slug>/`
+- BexCard is the first one (`lib/bexcard-markup.ts`, `lib/bexcard.js`). To add another, copy that set, add the route to `app/sitemap.ts`, and link it from the work-experience card the way BexCard is (a `.fr-case` overlay link + `.sticky-case` note + `data-return="<card id>"`).
+- Coming back from a case study skips the opening animation and lands on the card that was opened (`yp-return` in sessionStorage, read once in `lib/intro.js`).
 
 ## Design rules (keep these)
 - Minimal, off-white canvas `#F7F7F5` with a faint 24px dot grid. Light by default, plus a dark theme
   (`html[data-theme="dark"]` re-maps the tokens at the top of `globals.css`; use `var(--surface)`, `--hair`, etc.
-  instead of hard-coded colours). The top bar has two toggles: Dark mode ("swap colours" swatches, key X) and Inspect (layer stack, key I) (shows/hides the Layers +
+  instead of hard-coded colours). The top bar has two toggles: Dark mode ("swap colours" swatches, key X) and Inspect (code-brackets icon, key I) (shows/hides the Layers +
   Design panels, `html[data-inspect="off"]`). Every visit starts in light mode with the panels open; the choices are not saved between visits.
 - Colors: ink `#1C1C1E`, muted `#6F6F74`, Figma selection blue `#0D99FF`,
   component purple `#9747FF`, available green `#14AE5C`.
@@ -30,14 +39,13 @@ character called Pixel.
 ## Content
 - Email: figmaebae@gmail.com (press C to copy)
 - LinkedIn, Twitter/X, Medium links: `LINKS` object in `lib/canvas.js`
-- Resume: **not linked yet** – set `LINKS.resume` in `lib/canvas.js` (opens in a new tab)
+- Resume: `public/resume.pdf`, linked through `LINKS.resume` in `lib/canvas.js` (opens in a new tab)
 - Experience: WASP (current, works on Consequence), BexCard, Chat360, Mimothi Solutions (intern)
 - Company logos are base64 images cropped from a screenshot (low-res). Replace with
   official logo files in `/public` when available.
 
 ## Next steps
-1. Link the resume.
 2. Refactor `lib/markup.ts` + `lib/canvas.js` into typed React components
    (Hero, Experience, FrameCard, LayersPanel, DesignPanel, LinkBar, Pixel, FigmaCursor)
    with content in a `content/site.ts` data file. Keep the look and behavior identical.
-3. Add projects / case studies section (as frames on the canvas).
+3. More case studies (BexCard is done; see "Case studies" above for the pattern).

@@ -1,0 +1,385 @@
+/* BexCard case study. Same canvas, tokens and metaphors as the home page (frames with # labels and a
+   blue selection on hover, Consequence-style component sets in dashed purple, serif-italic accents),
+   so this file only adds the layout and the few widgets that page doesn't have. Everything is
+   prefixed cs- and uses the tokens from app/globals.css, so light/dark come for free. */
+
+.cs{
+  --bad:#d6402f; --warn:#d97a06; --good:#14ae5c;
+  --pk:#E58FC2; --pu:#B077DC; --bl:#6FA5E0; --gr:#5CC49B;
+  --cs-rainbow:linear-gradient(90deg,#E58FC2,#B077DC 36%,#6FA5E0 68%,#5CC49B);
+  display:block;
+}
+html[data-theme="dark"] .cs{--bad:#ff7b6b;--warn:#f0a23a;--good:#3fd3a5}
+
+/* ---------- Page column (clears the Layers / Design panels when they're open) ---------- */
+.cs-wrap{--cs-pad:1.5rem;width:100%;max-width:calc(52rem + 2*var(--cs-pad));margin-inline:auto;padding-inline:var(--cs-pad)}
+@media (min-width:1200px) and (hover:hover) and (pointer:fine){
+  .cs-wrap{--cs-pad:calc(248px + 1.5rem)}
+  html[data-inspect="off"] .cs-wrap{--cs-pad:1.5rem}
+}
+.cs-sec{padding-top:6rem}
+.cs-sec.cs-tight{padding-top:.75rem}
+.cs-sec>*+*{margin-top:2.25rem}
+.cs-sec>.fr-label+.cs-h2{margin-top:0}
+.cs-sec>.cs-h2+.cs-sub{margin-top:1rem}
+.cs-sec>.cs-gap{margin-top:4rem}
+.cs-sec>.cs-gap+*{margin-top:1.25rem}
+.cs-h2{margin:0}
+.cs-sub{margin:0;max-width:34rem;font-size:1.0625rem;line-height:1.7;color:var(--muted)}
+.cs-h3{margin:0;font-family:var(--font-head);font-weight:500;font-size:1.25rem;line-height:1.2;letter-spacing:-.015em;color:var(--ink)}
+.cs-h3.cs-lg{font-size:clamp(1.5rem,3.4vw,2rem);line-height:1.15;letter-spacing:-.025em}
+.cs-h4{margin:0;font-family:var(--font-head);font-weight:500;font-size:1.0625rem;line-height:1.25;letter-spacing:-.01em;color:var(--ink)}
+.cs-lab{font:500 .75rem/1.2 var(--font);color:var(--muted)}
+.about b{color:var(--ink);font-weight:500}
+
+/* ---------- Hero ---------- */
+.cs-hero{padding-top:6.5rem}
+.cs-hero .fr-label{margin-bottom:1.25rem}
+.cs-h1{margin:0;line-height:1.02}
+.cs-lede{margin-top:1.5rem}
+.cs-pills{list-style:none;margin:1.75rem 0 0;padding:0;display:flex;flex-wrap:wrap;gap:.5rem}
+.cs-pill{display:inline-flex;align-items:center;gap:.5em;padding:.55em 1em;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);font:500 .8125rem/1 var(--font)}
+@media (prefers-reduced-motion:no-preference){
+  .cs-hero .sel-box{animation:draw .5s .55s cubic-bezier(.2,.7,.2,1) both}
+  .cs-hero .handle,.cs-hero .dims{animation:pop .3s .85s ease-out both}
+  .cs-hero .dims{animation-name:popd}
+}
+
+/* a fan of four screens that spreads on hover. Everything is sized from the fan's own width (cqw), and the
+   widest position (hovered, rotated outer phones) is worked out to stay inside it, so no screen is ever clipped. */
+.cs-fan{position:relative;container-type:inline-size;aspect-ratio:100/47;margin-top:3rem;display:flex;justify-content:center;align-items:flex-end;overflow:hidden}
+.cs-fan img{position:absolute;bottom:-14%;width:21cqw;height:auto;border-radius:clamp(10px,2.4cqw,22px);border:1px solid var(--hair-2);background:var(--surface);box-shadow:0 18px 40px -20px rgba(0,0,0,.4);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.cs-fan img:nth-child(1){transform:translateX(-140%) rotate(-12deg) translateY(8%)}
+.cs-fan img:nth-child(2){transform:translateX(-48%) rotate(-4deg)}
+.cs-fan img:nth-child(3){transform:translateX(48%) rotate(4deg)}
+.cs-fan img:nth-child(4){transform:translateX(140%) rotate(12deg) translateY(8%)}
+@media (hover:hover){
+  .cs-fan:hover img:nth-child(1){transform:translateX(-155%) rotate(-14deg) translateY(2%)}
+  .cs-fan:hover img:nth-child(2){transform:translateX(-52%) rotate(-5deg) translateY(-4%)}
+  .cs-fan:hover img:nth-child(3){transform:translateX(52%) rotate(5deg) translateY(-4%)}
+  .cs-fan:hover img:nth-child(4){transform:translateX(155%) rotate(14deg) translateY(2%)}
+}
+/* phones: bigger screens, tucked closer together */
+@media (max-width:560px){
+  .cs-fan{aspect-ratio:100/52;margin-top:1.5rem}
+  .cs-fan img{width:25cqw}
+  .cs-fan img:nth-child(1){transform:translateX(-112%) rotate(-12deg) translateY(8%)}
+  .cs-fan img:nth-child(2){transform:translateX(-40%) rotate(-4deg)}
+  .cs-fan img:nth-child(3){transform:translateX(40%) rotate(4deg)}
+  .cs-fan img:nth-child(4){transform:translateX(112%) rotate(12deg) translateY(8%)}
+}
+
+/* ---------- Ticker ---------- */
+.cs-marq{margin-top:2.5rem;overflow:hidden;border-block:1px solid var(--hair-2);padding-block:.95rem;white-space:nowrap;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 6%,#000 94%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 6%,#000 94%,transparent 100%)}
+.cs-marq-track{display:inline-flex;animation:cs-slide 44s linear infinite}
+.cs-marq span{display:inline-flex;align-items:center;margin-right:1.6rem;font:500 1.0625rem/1 var(--font-head);letter-spacing:-.01em;color:var(--ink)}
+.cs-marq span::after{content:"✦";margin-left:1.6rem;color:var(--muted);font-size:.8em}
+@keyframes cs-slide{to{transform:translateX(-50%)}}
+@media (hover:hover) and (pointer:fine){.cs-marq:hover .cs-marq-track{animation-play-state:paused}}
+
+/* ---------- Tiles, cards, stats ---------- */
+.cs-bento{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:.75rem}
+.cs-bento+.cs-bento{margin-top:.75rem}
+.cs-half{grid-column:span 3}.cs-third{grid-column:span 2}.cs-full{grid-column:span 6}
+.cs-tile{position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:1.25rem;min-width:0;padding:1.375rem 1.5rem 1.5rem;background:var(--surface);border-radius:14px;box-shadow:0 0 0 1px var(--hair);transition:box-shadow .15s}
+.cs-tile:hover,.cs-card:hover{box-shadow:0 0 0 1px var(--sel)}
+.cs-tile p{margin:0;max-width:30ch;font-size:.9375rem;line-height:1.55;color:var(--muted)}
+.cs-tile p.cs-big{max-width:none;font-size:1.1875rem;line-height:1.4;letter-spacing:-.01em;color:var(--ink)}
+.cs-tile p.cs-statement{max-width:44ch;font:500 clamp(1.3rem,3vw,1.75rem)/1.28 var(--font-head);letter-spacing:-.02em;color:var(--ink)}
+.cs-tile.inv{background:var(--ink);box-shadow:none}
+.cs-tile.inv:hover{box-shadow:0 0 0 1px var(--sel)}
+.cs-tile.inv .cs-lab{color:color-mix(in srgb,var(--paper) 62%,transparent)}
+.cs-tile.inv p,.cs-tile.inv .cs-stat{color:var(--paper)}
+.cs-tile.inv p:not(.cs-big){color:color-mix(in srgb,var(--paper) 72%,transparent)}
+.cs-stat{font:500 clamp(3.5rem,10vw,5.75rem)/.95 var(--font-head);letter-spacing:-.05em;font-variant-numeric:tabular-nums;color:var(--ink)}
+.cs-stat .cs-suf{font-size:.78em;letter-spacing:.02em;color:var(--muted);margin-left:.05em}
+.cs-tile.inv .cs-stat .cs-suf{color:color-mix(in srgb,var(--paper) 62%,transparent)}
+@media (max-width:700px){.cs-half,.cs-third{grid-column:span 6}}
+/* the three headline numbers: always one row, number sized from the row's width so it can't wrap */
+.cs-stats{grid-template-columns:repeat(3,minmax(0,1fr));container-type:inline-size}
+.cs-stats .cs-tile{grid-column:auto}
+.cs-stats .cs-stat{font-size:clamp(1.9rem,9.4cqw,4.75rem)}
+.cs-stats .cs-tile p{max-width:none}
+@media (max-width:560px){
+  .cs-stats{gap:.5rem}
+  .cs-stats .cs-tile{padding:.9rem .7rem 1rem;gap:.75rem}
+  .cs-stats .cs-lab{font-size:.6875rem}
+  .cs-stats .cs-tile p{font-size:.75rem;line-height:1.4}
+}
+
+/* role / worked with / timeline: one slim strip */
+.cs-spec{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-radius:14px;background:var(--surface);box-shadow:0 0 0 1px var(--hair)}
+.cs-spec-item{display:grid;gap:.3rem;align-content:start;min-width:0;padding:1rem 1.25rem;border-radius:14px;transition:box-shadow .15s}
+.cs-spec-item+.cs-spec-item{border-radius:0;box-shadow:-1px 0 0 var(--hair)}
+.cs-spec-item:hover{box-shadow:inset 0 0 0 1px var(--sel)}
+.cs-spec-val{margin:0;font:500 1.0625rem/1.25 var(--font-head);letter-spacing:-.015em;color:var(--ink)}
+.cs-spec-note{margin:0;font-size:.8125rem;line-height:1.5;color:var(--muted)}
+@media (max-width:700px){
+  .cs-spec{grid-template-columns:minmax(0,1fr)}
+  .cs-spec-item+.cs-spec-item{box-shadow:0 -1px 0 var(--hair)}
+}
+
+.cs-card{position:relative;display:grid;gap:.6rem;align-content:start;min-width:0;padding:1.25rem 1.375rem;background:var(--surface);border-radius:14px;box-shadow:0 0 0 1px var(--hair);transition:box-shadow .15s}
+.cs-card p{margin:0;font-size:.9375rem;line-height:1.6;color:var(--muted)}
+.cs-card p b,.cs-card li b{color:var(--ink);font-weight:500}
+.cs-sev{justify-self:start;display:inline-flex;padding:.32em .65em;border:1px solid currentColor;border-radius:999px;font:600 .6875rem/1 var(--font);letter-spacing:.03em}
+.cs-sev.h{color:var(--bad)}.cs-sev.m{color:var(--warn)}.cs-sev.g{color:var(--good)}
+
+.cs-pers,.cs-rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
+/* what other apps do (left) and how Bex answered it (right) */
+.cs-bench{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:.75rem;align-items:stretch}
+.cs-blist{display:grid;gap:.5rem}
+.cs-brow{display:grid;gap:.3rem;align-content:center;padding:.95rem 1.1rem;border:0;border-radius:14px;background:var(--surface);box-shadow:0 0 0 1px var(--hair);color:inherit;font:inherit;text-align:left;cursor:pointer;transition:box-shadow .15s,transform .15s,background-color .15s}
+.cs-brow:hover{box-shadow:0 0 0 1px var(--sel)}
+.cs-brow[aria-selected="true"]{box-shadow:0 0 0 2px var(--sel);transform:translateX(.25rem)}
+.cs-brow:focus-visible{outline:2px solid var(--sel);outline-offset:3px}
+.cs-brow b{font:500 1.0625rem/1.25 var(--font-head);letter-spacing:-.01em;color:var(--ink)}
+.cs-brow small{font-size:.8125rem;line-height:1.5;color:var(--muted)}
+.cs-bstage{min-width:0;padding:1.25rem;border-radius:14px;background:var(--ink);color:var(--paper)}
+.cs-bpanel{display:grid;grid-template-columns:minmax(0,1fr) 9.5rem;gap:1.25rem;align-items:center;height:100%}
+.cs-bpanel[hidden]{display:none}
+.cs-btext{display:grid;gap:.75rem;align-content:center}
+.cs-bpill{justify-self:start;padding:.32em .7em;border-radius:999px;background:var(--sel);font:600 .6875rem/1 var(--font);letter-spacing:.03em;color:#fff}
+.cs-btake{margin:0;font:500 clamp(1.25rem,2.6vw,1.6rem)/1.2 var(--font-head);letter-spacing:-.02em}
+.cs-bfrom{margin:0;font-size:.8125rem;line-height:1.5;color:color-mix(in srgb,var(--paper) 66%,transparent)}
+.cs-bfig{display:grid;gap:.5rem;margin:0}
+.cs-bfig figcaption{font-size:.75rem;line-height:1.35;color:color-mix(in srgb,var(--paper) 66%,transparent)}
+.cs-bfig .cs-shot{border-color:transparent}
+@media (max-width:760px){
+  .cs-bench{grid-template-columns:minmax(0,1fr)}
+  .cs-brow[aria-selected="true"]{transform:none}
+}
+@media (max-width:640px){.cs-pers,.cs-rules{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:420px){.cs-bpanel{grid-template-columns:minmax(0,1fr) 7.5rem;gap:.9rem}}
+/* the key takeaway, in the same white box width as everything else */
+.cs-callout{display:grid;gap:.6rem;width:100%;margin:0;padding:1.75rem 2rem;border-radius:14px;background:var(--surface);box-shadow:0 0 0 1px var(--hair);font:500 clamp(1.4rem,3.2vw,2.15rem)/1.22 var(--font-head);letter-spacing:-.025em;color:var(--ink)}
+.cs-callout .cs-lab{letter-spacing:0;font-family:var(--font)}
+.cs-callout .ti-serif{font-weight:400;letter-spacing:.02em;color:var(--sel)}
+@media (max-width:520px){.cs-callout{padding:1.25rem}}
+.cs-pehead{display:flex;align-items:center;gap:.9rem}
+.cs-avatar{display:block;flex:none;width:4.5rem;height:4.5rem;border-radius:50%;object-fit:cover;border:1px solid var(--hair-2);background:var(--surface)}
+.cs-pe .cs-q{font:500 1.1875rem/1.3 var(--font-head);letter-spacing:-.015em;color:var(--ink)}
+.cs-note{max-width:34rem;font-size:.8125rem;line-height:1.55;color:var(--muted)}
+.cs-rule{min-height:0}
+.cs-rn{font-size:2.5rem;line-height:1;color:var(--pu)}
+.cs-rule:nth-child(1) .cs-rn{color:var(--pk)}
+.cs-rule:nth-child(3) .cs-rn{color:var(--bl)}
+.cs-rule:nth-child(4) .cs-rn{color:var(--gr)}
+
+/* ---------- Journey map (a frame, like the work-experience cards) ---------- */
+.cs-jgrid{display:grid;grid-template-columns:minmax(0,15.5rem) minmax(0,1fr);gap:1.25rem 1.5rem;align-items:stretch}
+.cs-jline{position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:.25rem}
+.cs-jline::before{content:"";position:absolute;left:1.8rem;top:1.75rem;bottom:1.75rem;width:3px;margin-left:-1.5px;border-radius:2px;background:linear-gradient(180deg,#E58FC2,#B077DC 36%,#6FA5E0 68%,#5CC49B);opacity:.85}
+.cs-jstep{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:.85rem;row-gap:.45rem;align-items:center;min-width:0;padding:.7rem .75rem;border:0;border-radius:10px;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;transition:background-color .2s}
+.cs-jstep:hover{background:var(--field)}
+.cs-jstep[aria-selected="true"]{background:var(--field)}
+.cs-jstep:focus-visible{outline:2px solid var(--sel);outline-offset:2px}
+.cs-jdot{position:relative;z-index:1;display:grid;place-items:center;width:2.1rem;height:2.1rem;border:2px solid var(--ink);border-radius:50%;background:var(--surface);font:600 .75rem/1 var(--font);transition:transform .2s cubic-bezier(.3,1.5,.4,1),background-color .2s,border-color .2s,color .2s}
+.cs-jstep:hover .cs-jdot{transform:scale(1.08)}
+.cs-jstep[aria-selected="true"] .cs-jdot{background:var(--sel);border-color:var(--sel);color:#fff;transform:scale(1.12)}
+.cs-jtx{display:grid;gap:.15rem;min-width:0}
+.cs-jtx b{font-size:.9375rem;font-weight:600;line-height:1.2;color:var(--ink)}
+.cs-jtx small{font-size:.75rem;line-height:1.35;color:var(--muted)}
+.cs-jbar{position:relative;display:block;grid-column:2;height:3px;overflow:hidden;border-radius:2px;background:var(--hair-2);visibility:hidden}
+.cs-jbar::after{content:"";position:absolute;inset:0;background:var(--sel);transform:scaleX(0);transform-origin:0 50%}
+.cs-jline.auto .cs-jstep[aria-selected="true"] .cs-jbar{visibility:visible}
+.cs-jline.auto .cs-jstep[aria-selected="true"] .cs-jbar::after{animation:cs-jfill 5s linear forwards}
+.cs-jline.auto.paused .cs-jstep[aria-selected="true"] .cs-jbar::after{animation-play-state:paused}
+@keyframes cs-jfill{to{transform:scaleX(1)}}
+.cs-jstage{min-width:0;padding:1.25rem 1.5rem 1.5rem;border-radius:12px;background:var(--field)}
+.cs-jpanel{display:grid;gap:1.25rem;align-content:start}
+.cs-jpanel[hidden]{display:none}
+.cs-jtxt{display:grid;gap:.5rem;align-content:start}
+.cs-jtxt ul{margin:.15rem 0 0;padding-left:1.1rem;font-size:.9375rem;line-height:1.6;color:var(--muted)}
+.cs-jshots{display:flex;align-items:flex-start;gap:.9rem}
+.cs-jfig{display:grid;gap:.5rem;width:9.25rem;margin:0}
+.cs-jfig figcaption{font-size:.75rem;line-height:1.35;color:var(--muted)}
+.cs-jfig .cs-zoom{border-radius:10px}
+.cs-jfig .cs-shot{border-radius:10px}
+.cs-jmap .fr-body{container-type:inline-size}
+@container (max-width:640px){
+  .cs-jgrid{grid-template-columns:minmax(0,1fr)}
+  .cs-jline{flex-direction:row;justify-content:space-between}
+  .cs-jline::before{left:2rem;right:2rem;top:1.75rem;bottom:auto;width:auto;height:3px;margin:0;background:var(--cs-rainbow)}
+  .cs-jstep{grid-template-columns:minmax(0,1fr);justify-items:center;padding:.6rem .25rem;flex:1;background:none!important}
+  .cs-jtx{display:none}
+  .cs-jbar{grid-column:1;width:2.1rem}
+  .cs-jshots{flex-wrap:wrap}
+  .cs-jfig{width:calc(33.3% - .65rem);min-width:6.25rem}
+}
+
+/* ---------- Screens: galleries, pairs, zoom buttons ---------- */
+.cs-zoom{display:block;width:100%;padding:0;border:0;border-radius:18px;background:none;color:inherit;cursor:zoom-in}
+.cs-zoom:focus-visible{outline:2px solid var(--sel);outline-offset:3px}
+.cs-shot{display:block;width:100%;height:auto;border:1px solid var(--hair-2);border-radius:clamp(12px,2vw,18px);background:var(--surface);transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s}
+.cs-shot.sq{border-radius:12px}
+.cs-zoom:hover .cs-shot{transform:translateY(-4px);box-shadow:0 16px 30px -16px rgba(0,0,0,.4)}
+.cs-fig{margin:0;display:grid;gap:.65rem;align-content:start;min-width:0}
+.cs-fig figcaption{font-size:.8125rem;line-height:1.4;color:var(--muted)}
+.cs-fig figcaption b{display:block;font-size:.875rem;font-weight:600;color:var(--ink)}
+/* a row of equal screens spread across the available width (no scrolling). It breaks out of the text column so it can use
+   the whole width between the side panels (or the whole screen when they're closed), then wraps on smaller screens. */
+.cs-bleed{--cs-bleed-pad:1rem;--cs-bleed-w:min(calc(100vw - 2*var(--cs-bleed-pad)),88rem);width:var(--cs-bleed-w);margin-left:calc(50% - var(--cs-bleed-w)/2)}
+@media (min-width:1200px) and (hover:hover) and (pointer:fine){
+  .cs-bleed{--cs-bleed-pad:calc(248px + 1rem)}
+  html[data-inspect="off"] .cs-bleed{--cs-bleed-pad:1rem}
+}
+.cs-spread{--gap:.75rem;--n:var(--cols,6);display:flex;flex-wrap:wrap;justify-content:center;gap:1.75rem var(--gap)}
+.cs-spread .cs-fig{flex:0 0 calc((100% - (var(--n) - 1)*var(--gap))/var(--n))}
+@media (max-width:900px){.cs-spread{--n:var(--cols-md,3)}}
+@media (max-width:560px){.cs-spread{--n:var(--cols-sm,2)}}
+.cs-duo{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem}
+.cs-duo.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cs-feat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
+.cs-fcard{gap:1rem;padding:1.375rem}
+.cs-fcard>p{margin:0}
+.cs-linktxt{align-content:space-between;gap:1.5rem}
+.cs-mini{display:grid;gap:.5rem;margin:0;padding:0;list-style:none}
+.cs-mini li{display:grid;grid-template-columns:1.6rem minmax(0,1fr);gap:.7rem;align-items:center;padding:.7rem .8rem;border-radius:10px;background:var(--field);font-size:.875rem;line-height:1.45;color:var(--muted)}
+.cs-mini b{font-weight:600;color:var(--ink)}
+.cs-mini p{margin:0}
+.cs-mini i{font-style:normal;display:grid;place-items:center;width:1.6rem;height:1.6rem;border-radius:50%;background:var(--ink);font:600 .6875rem/1 var(--font);color:var(--paper)}
+/* typing vs tapping: two phones animate side by side */
+.cs-scene .fr-body{container-type:inline-size;padding:1.5rem}
+.cs-sc{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.3fr);gap:1.5rem 2rem;align-items:center}
+.cs-sc-text{display:grid;gap:.9rem;align-content:center}
+.cs-sc-text p{margin:0;font-size:.9375rem;line-height:1.65;color:var(--muted)}
+.cs-demo{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:.75rem;align-items:center;padding:1.25rem 1rem 1rem;border-radius:12px;background:var(--field)}
+.cs-dvs{font:italic 400 1.25rem/1 var(--font-accent);color:var(--muted)}
+.cs-dcol{display:grid;gap:.75rem;justify-items:center;min-width:0}
+.cs-dcap{display:grid;gap:.1rem;margin:0;text-align:center;font-size:.75rem;line-height:1.35;color:var(--muted)}
+.cs-dcap b{font-size:.8125rem;font-weight:600;color:var(--ink)}
+.cs-ph{width:100%;max-width:12rem;overflow:hidden;border-radius:18px;background:var(--surface);box-shadow:0 0 0 1px var(--hair-2),0 14px 26px -18px rgba(0,0,0,.45)}
+.cs-ph-top{padding:.65rem .5rem;background:#FFC700;font:600 .6875rem/1 var(--font);text-align:center;color:#1c1c1e}
+.cs-ph-body{display:grid;gap:.5rem;padding:.7rem .6rem .8rem;height:12rem;align-content:start}
+.cs-ph-h{font:600 .625rem/1.3 var(--font);color:var(--ink)}
+.cs-fl{display:grid;gap:.2rem;font:500 .5625rem/1 var(--font);color:var(--muted)}
+.cs-fin{display:block;height:1.35rem;padding:.4rem .45rem 0;border:1px solid var(--hair-2);border-radius:6px;font:500 .625rem/1 var(--font);color:var(--ink);overflow:hidden;white-space:nowrap}
+.cs-fin em{display:inline-block;font-style:normal;clip-path:inset(0 0 0 0)}
+.cs-ph-btn{display:grid;place-items:center;height:1.6rem;margin-top:.15rem;border-radius:999px;background:var(--hair-2);font:600 .5625rem/1 var(--font);color:var(--muted);position:relative;overflow:hidden}
+.cs-banks{position:relative;display:grid;gap:.3rem}
+.cs-bank{display:flex;align-items:center;height:1.55rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 .5rem;border:1px solid var(--hair-2);border-radius:6px;font:500 .5625rem/1 var(--font);color:var(--ink)}
+.cs-tap{position:absolute;left:62%;top:2.625rem;width:.9rem;height:.9rem;margin:-.45rem 0 0 -.45rem;border-radius:50%;background:var(--sel);opacity:0;pointer-events:none}
+.a1,.a2{grid-area:1/1}
+.a2{opacity:0;color:#fff}
+/* 9s loop: the old way keeps typing; the new way is done in a couple of seconds, then waits */
+.cs-demo{--t:9s}
+.t1,.t2,.t3{animation:cs-type var(--t) steps(1,end) infinite}
+.t1{animation-name:cs-t1}.t2{animation-name:cs-t2}.t3{animation-name:cs-t3}
+.cs-ph-cont{animation:cs-cont var(--t) linear infinite}
+.cs-bank.pick{animation:cs-pick var(--t) linear infinite}
+.cs-tap{animation:cs-tapm var(--t) ease-in-out infinite}
+.a1{animation:cs-a1 var(--t) linear infinite}
+.a2{animation:cs-a2 var(--t) linear infinite}
+.cs-ph-app{animation:cs-appbg var(--t) linear infinite}
+@keyframes cs-t1{0%{clip-path:inset(0 100% 0 0)}20%{clip-path:inset(0 0 0 0)}92%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 100% 0 0)}}
+@keyframes cs-t2{0%,20%{clip-path:inset(0 100% 0 0)}38%{clip-path:inset(0 0 0 0)}92%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 100% 0 0)}}
+@keyframes cs-t3{0%,38%{clip-path:inset(0 100% 0 0)}60%{clip-path:inset(0 0 0 0)}92%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 100% 0 0)}}
+@keyframes cs-cont{0%,64%{background:var(--hair-2);color:var(--muted)}68%,92%{background:var(--ink);color:var(--paper)}100%{background:var(--hair-2);color:var(--muted)}}
+@keyframes cs-tapm{0%,6%{opacity:0;transform:translate(.9rem,1.9rem) scale(1)}10%{opacity:1;transform:translate(.9rem,1.9rem) scale(1)}16%{opacity:1;transform:translate(0,0) scale(1)}19%{opacity:1;transform:translate(0,0) scale(.7)}23%{opacity:0;transform:translate(0,0) scale(1.5)}100%{opacity:0}}
+@keyframes cs-pick{0%,18%{background:transparent;border-color:var(--hair-2)}22%,92%{background:color-mix(in srgb,var(--sel) 14%,transparent);border-color:var(--sel)}100%{background:transparent;border-color:var(--hair-2)}}
+@keyframes cs-appbg{0%,24%{background:var(--hair-2)}28%{background:var(--ink)}38%,92%{background:var(--good)}100%{background:var(--hair-2)}}
+@keyframes cs-a1{0%,24%{opacity:1;color:var(--muted)}28%{opacity:1;color:var(--paper)}34%,92%{opacity:0}100%{opacity:1;color:var(--muted)}}
+@keyframes cs-a2{0%,33%{opacity:0}38%,92%{opacity:1}96%,100%{opacity:0}}
+@container (max-width:640px){
+  .cs-sc{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){
+  .t1,.t2,.t3,.cs-ph-cont,.cs-bank.pick,.cs-tap,.a1,.a2,.cs-ph-app{animation:none}
+  .cs-bank.pick{background:color-mix(in srgb,var(--sel) 14%,transparent);border-color:var(--sel)}
+  .cs-ph-app{background:var(--good)}.a1{opacity:0}.a2{opacity:1}
+  .cs-ph-cont{background:var(--ink);color:var(--paper)}
+}
+/* the six screens, grouped as two short flows */
+.cs-story{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
+.cs-sgroup{display:grid;gap:1rem;align-content:start;padding:1.1rem 1.1rem 1.25rem;border-radius:14px;background:var(--surface);box-shadow:0 0 0 1px var(--hair)}
+.cs-sglab{margin:0;font:500 1.25rem/1.2 var(--font-head);letter-spacing:-.015em;color:var(--ink)}
+.cs-sflow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}
+.cs-sfig{position:relative}
+.cs-sn{position:absolute;z-index:1;top:-.4rem;left:-.4rem;display:grid;place-items:center;width:1.4rem;height:1.4rem;border-radius:50%;background:var(--ink);font:600 .6875rem/1 var(--font);color:var(--paper);pointer-events:none}
+.cs-sfig figcaption{font-size:.75rem}
+@media (max-width:900px){.cs-story{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){.cs-sflow{gap:.5rem}.cs-sgroup{padding:.9rem .8rem 1rem}.cs-sfig figcaption{font-size:.6875rem}}
+@media (max-width:760px){.cs-feat{grid-template-columns:minmax(0,1fr)}}
+.cs-facts{display:grid;gap:.5rem;margin:0;padding:0;list-style:none}
+.cs-facts li{display:grid;grid-template-columns:7.25rem minmax(0,1fr);gap:.75rem;align-items:baseline;padding:.7rem .9rem;border-radius:10px;background:var(--field);font-size:.875rem;line-height:1.5;color:var(--muted)}
+.cs-facts b{font-weight:600;color:var(--ink)}
+@media (max-width:520px){.cs-facts li{grid-template-columns:minmax(0,1fr);gap:.2rem}}
+
+/* ---------- Two apps, one product ---------- */
+.cs-pair{display:grid;grid-template-columns:minmax(0,13rem) minmax(0,1fr) minmax(0,13rem);gap:1.5rem 2rem;align-items:center}
+.cs-side{display:grid;gap:.75rem;margin:0;min-width:0}
+.cs-side figcaption{display:grid;gap:.2rem;font-size:.8125rem;line-height:1.45;color:var(--muted)}
+.cs-side figcaption b{font-size:.9375rem;font-weight:600;color:var(--ink)}
+.cs-steps{display:grid;gap:.6rem;margin:0;padding:0;list-style:none}
+.cs-steps li{display:grid;gap:.25rem;padding:.85rem 1rem;border-radius:12px;background:var(--surface);box-shadow:0 0 0 1px var(--hair);transition:box-shadow .15s}
+.cs-steps li:hover{box-shadow:0 0 0 1px var(--sel)}
+.cs-steps b{display:flex;align-items:center;gap:.5rem;font:500 1.0625rem/1.2 var(--font-head);letter-spacing:-.01em;color:var(--ink)}
+.cs-steps b::before{content:"";flex:none;width:.6rem;height:.6rem;border-radius:50%;background:var(--pk)}
+.cs-steps li:nth-child(2) b::before{background:var(--pu)}
+.cs-steps li:nth-child(3) b::before{background:var(--bl)}
+.cs-steps li:nth-child(4) b::before{background:var(--gr)}
+.cs-steps span{font-size:.875rem;line-height:1.5;color:var(--muted)}
+@media (max-width:760px){
+  .cs-pair{grid-template-columns:minmax(0,1fr)}
+  .cs-side .cs-zoom{max-width:14rem;margin-inline:auto}
+}
+
+/* ---------- Component sets: Confirmation of Payee states + light/dark screens ---------- */
+.cs-cop .cset-box,.cs-mode .cset-box{grid-template-columns:minmax(0,1fr);gap:1.1rem}
+.cs-vprops{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem}
+.cs-vlab{margin-right:.15rem;font:500 11px/1 var(--font);color:var(--comp)}
+.cs-vbtn{padding:.5em .95em;border:1px solid var(--comp);border-radius:999px;background:transparent;color:var(--comp);font:500 .8125rem/1 var(--font);cursor:pointer;transition:background-color .15s,color .15s}
+.cs-vbtn:hover{background:color-mix(in srgb,var(--comp) 12%,transparent)}
+.cs-vbtn[aria-selected="true"],.cs-vbtn[aria-pressed="true"]{background:var(--comp);color:#fff}
+.cs-vbtn:focus-visible{outline:2px solid var(--sel);outline-offset:2px}
+.cs-variant[hidden]{display:none}
+.cs-variant:hover .v-card{box-shadow:0 0 0 1.5px var(--comp)}
+.v-card.cs-stage{display:grid;grid-template-columns:minmax(0,15rem) minmax(0,1fr);gap:1.5rem 2.5rem;align-items:center;padding:1.5rem}
+.v-card.cs-stage .cs-zoom{width:100%;max-width:15rem;margin-inline:auto}
+.cs-info{display:grid;gap:.75rem}
+.cs-info p{margin:0;max-width:30rem;font-size:.9375rem;line-height:1.65;color:var(--muted)}
+@media (max-width:760px){.v-card.cs-stage{grid-template-columns:minmax(0,1fr)}}
+.v-card.cs-modeg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.9rem;padding:1.25rem}
+@media (max-width:620px){.v-card.cs-modeg{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ---------- BexBuddy chat ---------- */
+.cs-chat{display:grid;gap:.5rem;align-content:start}
+.cs-msg{max-width:90%;padding:.7rem 1rem;border-radius:16px;font-size:.9rem;line-height:1.45}
+.cs-msg.u{justify-self:end;border-bottom-right-radius:5px;background:var(--ink);color:var(--paper)}
+.cs-msg.b{border-bottom-left-radius:5px;background:var(--field);color:var(--ink)}
+.cs-quote{max-width:34rem;margin-top:1.75rem;padding-left:1rem;border-left:3px solid var(--pu);font:italic 400 clamp(1.5rem,3.6vw,2.1rem)/1.2 var(--font-accent);letter-spacing:.02em;color:var(--ink)}
+
+/* ---------- Outcome (the closing black section, like Contact) ---------- */
+.cs-close{position:relative;margin-top:7rem;padding:6rem 0 7rem}
+.cs-close-lab{display:flex;align-items:center;gap:6px;margin:0 0 .75rem;font-size:12px;line-height:1;color:rgba(255,255,255,.6)}
+.cs-nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.5rem;margin-top:3.25rem}
+.cs-close .cs-stat{color:#fff}
+.cs-close .cs-stat .cs-suf{color:rgba(255,255,255,.6)}
+.cs-n p{margin:.9rem 0 0;max-width:20ch;font-size:.9375rem;line-height:1.5;color:rgba(255,255,255,.68)}
+.cs-closer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.5rem;margin-top:4.5rem}
+.cs-foot{margin:0;font-size:.8125rem;color:rgba(255,255,255,.5)}
+.gl-all.cs-cta{border-color:#fff;box-shadow:4px 4px 0 #fff}
+.gl-all.cs-cta:hover{box-shadow:2px 2px 0 #fff}
+.gl-all.cs-cta:active{box-shadow:0 0 0 #fff}
+.gl-all.cs-cta .gl-all-go{background:#1c1c1e;color:#fff}
+@media (max-width:640px){.cs-nums{grid-template-columns:minmax(0,1fr);gap:2rem}.cs-close{padding:4.5rem 0 5rem}}
+
+/* ---------- Top bar back link ---------- */
+.cs-back{text-decoration:none;color:var(--ink)}
+.cs-back-ic{display:grid;place-items:center;width:30px;height:30px}
+.cs-back-ic svg{transition:transform .2s cubic-bezier(.3,1.5,.4,1)}
+.cs-back:hover .cs-back-ic svg{transform:translateX(-3px)}
+
+/* ---------- Scroll reveal (JS adds .cs-pre to blocks that start below the fold, then .cs-in) ---------- */
+@media (prefers-reduced-motion:no-preference){
+  .cs-pre{opacity:0;transform:translateY(18px)}
+  .cs-pre.cs-in{opacity:1;transform:none;transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+}
+@media (prefers-reduced-motion:reduce){
+  .cs-marq-track{animation:none}
+  .cs-fan img,.cs-shot,.cs-jdot,.cs-back-ic svg{transition:none}
+}
+/* the callout's margin:0 beat the section rhythm, so it sat flush against the benchmark */
+.cs-sec>.cs-bench+.cs-callout{margin-top:2.25rem}

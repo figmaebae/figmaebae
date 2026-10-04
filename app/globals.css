@@ -407,7 +407,9 @@ h1{margin:0;font-size:clamp(3.25rem,12vw,5.5rem);font-weight:500;line-height:1;l
 .lb-nav{top:50%;margin-top:-22px}
 .lb-prev{left:1rem}
 .lb-next{right:1rem}
-html.lb-open,html.ap-open{overflow:hidden}
+/* lock page scroll behind an open viewer. The lock goes on <body> (whose overflow the browser applies to the viewport) rather
+   than <html>: locking <html> made the page jump to the top behind the overlay until it closed. */
+html.lb-open body,html.ap-open body{overflow:hidden}
 @media (prefers-reduced-motion:reduce){.lightbox,.lb-img,.allphotos,.gl-all{transition:none}}
 
 /* Contact: full-bleed black closer with a two-tone headline and a mailto link */
@@ -613,6 +615,12 @@ html[data-theme="dark"] .panel,html[data-theme="dark"] .toolbar,html[data-theme=
 .zig{left:-130px;top:560px}
 .sticky{position:absolute;top:-16px;right:-14px;z-index:2;padding:8px 12px 9px;background:#ffe58a;color:#3d3200;font:600 18px/1 var(--font-caveat,"Caveat"),cursive;transform:rotate(4deg);box-shadow:0 2px 6px rgba(0,0,0,.08),0 1px 1px rgba(0,0,0,.06);pointer-events:none}
 @media (max-width:560px){.sticky{right:-6px;top:-14px;font-size:16px}}
+/* A work-experience card that links to a case study: the whole card is the link (the company-name link stays on top) */
+.fr-case{position:absolute;inset:0;z-index:1;border-radius:14px;cursor:pointer}
+.fr-case:focus-visible{outline:2px solid var(--sel);outline-offset:3px}
+.fr-co a{position:relative;z-index:2}
+.sticky-case{right:-10px;background:#f9d6ec;color:#4a1034;transform:rotate(-3deg)}
+@media (max-width:560px){.sticky-case{right:-4px}}
 
 /* draw-in strokes */
 .draw{stroke-dasharray:1;stroke-dashoffset:0}
@@ -626,6 +634,7 @@ html[data-theme="dark"] .panel,html[data-theme="dark"] .toolbar,html[data-theme=
   .g1{animation:wander1 18s ease-in-out infinite}
   .g2{animation:wander2 21s ease-in-out infinite}
   .sticky{animation:sway 5s ease-in-out infinite}
+  .sticky-case{animation-name:sway-l}
 }
 @keyframes draw-line{to{stroke-dashoffset:0}}
 @keyframes fade-hand{from{opacity:0;transform:rotate(-5deg) translateY(4px)}}
@@ -633,6 +642,7 @@ html[data-theme="dark"] .panel,html[data-theme="dark"] .toolbar,html[data-theme=
 @keyframes twinkle{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(.55) rotate(45deg);opacity:.6}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes sway{0%,100%{transform:rotate(4deg)}50%{transform:rotate(1.5deg) translateY(-2px)}}
+@keyframes sway-l{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(-1deg) translateY(-2px)}}
 @keyframes wander1{0%,100%{transform:translate(0,0)}22%{transform:translate(70px,110px)}48%{transform:translate(10px,250px)}74%{transform:translate(90px,170px)}}
 @keyframes wander2{0%,100%{transform:translate(0,0)}30%{transform:translate(-40px,-120px)}55%{transform:translate(50px,-60px)}80%{transform:translate(-10px,90px)}}
 

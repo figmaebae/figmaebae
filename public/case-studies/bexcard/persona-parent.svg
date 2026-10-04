@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Illustration of Mary, the parent">
+  <rect width="160" height="160" fill="#F9D6EC"/>
+  <circle cx="132" cy="30" r="22" fill="#fff" opacity=".35"/>
+  <path d="M14 160c2-32 28-50 66-50s64 18 66 50z" fill="#5CC49B"/>
+  <path d="M62 112c4 8 12 12 18 12s14-4 18-12z" fill="#E9B88F"/>
+  <rect x="68" y="94" width="24" height="26" rx="10" fill="#E9B88F"/>
+  <path d="M40 92C32 50 54 22 80 22s48 28 40 70c-2 12-8 22-12 26H52c-4-4-10-14-12-26z" fill="#3b2a24"/>
+  <ellipse cx="80" cy="84" rx="27" ry="31" fill="#F2C9A5"/>
+  <path d="M52 80c2-24 20-34 38-28 12 4 20 14 18 28-6-12-18-18-32-14-10 3-18 8-24 14z" fill="#3b2a24"/>
+  <circle cx="70" cy="86" r="2.8" fill="#1c1c1e"/>
+  <circle cx="90" cy="86" r="2.8" fill="#1c1c1e"/>
+  <path d="M71 98q9 8 18 0" stroke="#1c1c1e" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <ellipse cx="60" cy="95" rx="5.5" ry="3.2" fill="#ff8fc1" opacity=".5"/>
+  <ellipse cx="100" cy="95" rx="5.5" ry="3.2" fill="#ff8fc1" opacity=".5"/>
+  <circle cx="53" cy="94" r="3.4" fill="#ffc700"/>
+  <circle cx="107" cy="94" r="3.4" fill="#ffc700"/>
+</svg>

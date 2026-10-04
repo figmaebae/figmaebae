@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Illustration of Anika, the child">
+  <rect width="160" height="160" fill="#CFE5FB"/>
+  <circle cx="30" cy="34" r="20" fill="#fff" opacity=".4"/>
+  <path d="M22 160c2-26 26-42 58-42s56 16 58 42z" fill="#ffc700"/>
+  <path d="M66 118c4 6 9 9 14 9s10-3 14-9z" fill="#C98A5E"/>
+  <rect x="70" y="100" width="20" height="22" rx="9" fill="#C98A5E"/>
+  <circle cx="40" cy="78" r="15" fill="#2b1b18"/>
+  <circle cx="120" cy="78" r="15" fill="#2b1b18"/>
+  <circle cx="44" cy="68" r="5" fill="#E58FC2"/>
+  <circle cx="116" cy="68" r="5" fill="#E58FC2"/>
+  <ellipse cx="80" cy="82" rx="26" ry="29" fill="#D9A076"/>
+  <path d="M54 76c2-22 18-32 36-26 12 4 20 14 18 26-8-10-18-14-30-12-10 2-18 6-24 12z" fill="#2b1b18"/>
+  <circle cx="70" cy="86" r="3" fill="#1c1c1e"/>
+  <circle cx="90" cy="86" r="3" fill="#1c1c1e"/>
+  <circle cx="71" cy="85" r="1" fill="#fff"/>
+  <circle cx="91" cy="85" r="1" fill="#fff"/>
+  <path d="M71 96q9 9 18 0" stroke="#1c1c1e" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <ellipse cx="60" cy="94" rx="5.5" ry="3.2" fill="#ff8fc1" opacity=".55"/>
+  <ellipse cx="100" cy="94" rx="5.5" ry="3.2" fill="#ff8fc1" opacity=".55"/>
+</svg>
