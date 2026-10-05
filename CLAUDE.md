@@ -19,7 +19,8 @@ Each case study is its own route under `app/case-studies/<slug>/` and reuses the
 - `page.tsx` (metadata + JSON-LD), `case-study.css` (layout + widgets, all prefixed `cs-`), `opengraph-image.tsx` (share image)
 - `lib/<slug>-markup.ts` builds the HTML (sections, Layers rows; ids are checked at load) and `lib/<slug>.js` holds the page's own interactions
 - images live in `public/case-studies/<slug>/`
-- BexCard is the first one (`lib/bexcard-markup.ts`, `lib/bexcard.js`). To add another, copy that set, add the route to `app/sitemap.ts`, and link it from the work-experience card the way BexCard is (a `.fr-case` overlay link + `.sticky-case` note + `data-return="<card id>"`).
+- BexCard is the first one (`lib/bexcard-markup.ts`, `lib/bexcard.js`) and owns the shared `cs-` layout/widgets in its `case-study.css`. Chat360 (`lib/chat360-markup.ts`, `lib/chat360.js`, `app/case-studies/chat360/`) imports that stylesheet and adds its own `c3-` styles; its `initChat360()` calls `initBexCard()` for the shared reveal/tabs/viewer behaviour. To add another, copy the Chat360 set, add the route to `app/sitemap.ts`, and link it from the work-experience card the way BexCard/Chat360 are (a `.fr-case` overlay link + `.sticky-case` note + `data-return="<card id>"`).
+- Case-study pages open with Inspect closed (an inline script in `page.tsx` sets `data-inspect="off"` before first paint); the toggle still opens the panels.
 - Coming back from a case study skips the opening animation and lands on the card that was opened (`yp-return` in sessionStorage, read once in `lib/intro.js`).
 
 ## Design rules (keep these)
