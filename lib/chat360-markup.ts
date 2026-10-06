@@ -402,6 +402,7 @@ const hero = `<header class="cs-hero cs-wrap" id="cs-hero" data-layer="Hero" dat
     <li class="cs-pill">Solo</li>
     <li class="cs-pill">1 month, audit to launch</li>
   </ul>
+  <p class="cs-live reveal"><a class="gl-all" href="https://chat360.io" target="_blank" rel="noopener noreferrer" data-cursor="Open chat360.io" data-layer="View live site" data-kind="text"><span>View the live site<span class="sr-only"> (opens in a new tab)</span></span><span class="gl-all-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a></p>
   <div class="fr c3-compare" id="c3-compare" data-cursor="Before and after" data-layer="Before and after hero" data-kind="frame" data-measure=".fr-body">
     <p class="fr-label">${GRID}Drag to compare the hero · before and after</p>
     <div class="fr-body">

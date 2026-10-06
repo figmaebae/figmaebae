@@ -384,3 +384,7 @@ html[data-theme="dark"] .cs{--bad:#ff7b6b;--warn:#f0a23a;--good:#3fd3a5}
 }
 /* the callout's margin:0 beat the section rhythm, so it sat flush against the benchmark */
 .cs-sec>.cs-bench+.cs-callout{margin-top:2.25rem}
+
+/* "View the live site" button under the hero pills */
+.cs-live{margin:1.75rem 0 0}
+.cs-live .gl-all{text-decoration:none;font:600 .9375rem/1 var(--font);color:var(--ink)}

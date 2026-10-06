@@ -187,6 +187,7 @@ const hero = `<header class="cs-hero cs-wrap" id="cs-hero" data-layer="Hero" dat
     <li class="cs-pill">Parent app · Child app · Junior ISA · CTF</li>
     <li class="cs-pill">Light + dark</li>
   </ul>
+  <p class="cs-live reveal"><a class="gl-all" href="https://bexcard.co.uk" target="_blank" rel="noopener noreferrer" data-cursor="Open bexcard.co.uk" data-layer="View live site" data-kind="text"><span>View the live site<span class="sr-only"> (opens in a new tab)</span></span><span class="gl-all-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a></p>
   <div class="cs-fan" id="cs-fan" data-layer="Redesigned screens" data-kind="frame" role="group" aria-label="Redesigned screens">
     ${shot("child-home", "Child home with spends, savings, tasks and goals", { layer: "Child home", eager: true })}
     ${shot("parent-home-jisa", "Parent home with balance and Junior ISA prompt", { layer: "Parent home", eager: true })}
