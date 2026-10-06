@@ -43,7 +43,6 @@ const track = `<div class="sd-row">
 export const selectedMarkup = `<section class="cases sd" id="selected" data-layer="Beyond the Case Studies" data-kind="frame" aria-labelledby="selected-title">
   <div class="cc-head exp-head">
     <h2 id="selected-title" class="big-title"><span class="ti-sans">Beyond the </span><span class="ti-serif">Case Studies</span></h2>
-    <p>Screens from smaller projects and side explorations. It scrolls on its own; hover to pause, and open any of them for the full-size view.</p>
   </div>
   <div class="fr sd-frame" id="fr-selected" data-layer="Collage" data-kind="frame" data-measure=".fr-body">
     <p class="fr-label">${GRID}Beyond the Case Studies · scrolls on its own · click a screen to open it</p>
