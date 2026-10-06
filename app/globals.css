@@ -108,41 +108,16 @@ h1{margin:0;font-size:clamp(3.25rem,12vw,5.5rem);font-weight:500;line-height:1;l
 .role .ti-serif{display:block}
 
 
-/* Experience: each role is a Figma frame on the canvas; details unfold on hover */
-.experience{padding-top:2rem;padding-bottom:6rem}
+/* Frames: every canvas block (case-study cards, the collage board) is a Figma frame with a "#" label and a blue selection on hover */
 .exp-head h2{margin:0}
-.exp-head p{margin:.75rem 0 0;font-size:1.0625rem;line-height:1.7;color:var(--muted)}
-.frames{list-style:none;margin:3.5rem 0 0;padding:0;display:grid;gap:1.25rem}
+.exp-head p{margin:.5rem 0 0;font-size:1.0625rem;line-height:1.7;color:var(--muted)}
 .fr{position:relative}
 .fr-label{display:flex;align-items:center;gap:6px;margin:0 0 8px;font-size:12px;line-height:1;color:var(--muted);transition:color .15s}
 .fr-label svg{flex:none}
 .fr-body{position:relative;background:var(--surface);border-radius:14px;padding:1.25rem 1.5rem;box-shadow:0 0 0 1px var(--hair);transition:box-shadow .15s}
-.fr-top{display:flex;align-items:center;gap:.875rem}
 .logo{flex:none;width:2.75rem;height:2.75rem;border-radius:.5rem;overflow:hidden;background:#fff;box-shadow:0 0 0 1px var(--hair-2)}
 .logo img{display:block;width:100%;height:100%;object-fit:contain}
 .logo.mono{display:grid;place-items:center;color:var(--ink);font-weight:600;font-size:1.0625rem}
-.fr-title{flex:1;min-width:0;display:flex;flex-direction:column}
-.fr-co{order:-1;margin:0;font-size:1rem;font-weight:500;letter-spacing:-.01em;line-height:1.35;color:var(--ink)}
-.fr-co a{color:inherit;text-decoration:underline;text-decoration-color:var(--line);text-decoration-thickness:1px;text-underline-offset:3px;transition:color .15s,text-decoration-color .15s}
-.fr-co a:hover{color:var(--sel);text-decoration-color:var(--sel)}
-.fr-co a:focus-visible{outline:2px solid var(--sel);outline-offset:3px;border-radius:2px}
-.fr-role{margin:.1rem 0 0;font-size:.9375rem;font-weight:400;line-height:1.35;color:var(--muted)}
-.fr-date{flex:none;display:flex;align-items:center;gap:.4rem;font-size:.8125rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
-.fr-desc{margin:1rem 0 0;font-size:.9375rem;line-height:1.7;color:var(--muted)}
-/* Details unfold on hover / focus (always open on touch) */
-.fr-more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.7,.2,1)}
-.fr-more-in{min-height:0;overflow:hidden}
-.fr-more-in>*{opacity:0;transform:translateY(10px);transition:opacity .25s,transform .25s}
-.fr-more .cset{visibility:hidden;transition:opacity .25s,transform .25s,visibility 0s .5s}
-.fr:hover .fr-more,.fr:focus-within .fr-more,.fr.is-hl .fr-more{grid-template-rows:1fr}
-.fr:hover .fr-more-in>*,.fr:focus-within .fr-more-in>*,.fr.is-hl .fr-more-in>*{opacity:1;transform:none;transition:opacity .45s .12s,transform .55s .12s cubic-bezier(.2,.7,.2,1)}
-.fr:hover .fr-more .cset,.fr:focus-within .fr-more .cset,.fr.is-hl .fr-more .cset{visibility:visible;transition:opacity .45s .22s,transform .55s .22s cubic-bezier(.2,.7,.2,1),visibility 0s}
-@media (hover:none){
-  .fr-more{grid-template-rows:1fr}
-  .fr-more-in>*{opacity:1;transform:none}
-  .fr-more .cset{visibility:visible}
-}
-@media (prefers-reduced-motion:reduce){.fr-more,.fr-more-in>*,.fr-more .cset{transition:none!important}}
 .fr .sel-box,.fr .dims{opacity:0;transition:opacity .15s}
 .fr .sel-box{border-radius:14px}
 .fr:hover .sel-box,.fr:hover .dims{opacity:1}
@@ -150,9 +125,55 @@ h1{margin:0;font-size:clamp(3.25rem,12vw,5.5rem);font-weight:500;line-height:1;l
 .fr:hover .fr-body{box-shadow:0 0 0 1px transparent}
 @media (max-width:560px){
   .fr-body{padding:1.25rem}
-  .fr-top{flex-wrap:wrap}
-  .fr-date{order:3;width:100%;padding-left:3.625rem;margin-top:-.25rem}
 }
+
+/* Work experience: the heading sits in a left column (with the spinning badge), the roles are a ruled list on the right.
+   A row with details (WASP, Freelance, Mimothi) opens on click or tap; BexCard and Chat360 are plain rows. The block is as
+   wide as the Case studies grid (it takes --cc-w / --cc-pad from .cases). */
+.cases.xr{position:relative;padding-top:2rem;padding-bottom:4rem}
+.xr-wrap{width:min(calc(100vw - 2*var(--cc-pad)),var(--cc-w));margin-inline:auto;display:grid;grid-template-columns:minmax(0,15rem) minmax(0,1fr);gap:3rem;align-items:start}
+.xr-side{position:sticky;top:5.5rem}
+.xr-badge{display:block;width:96px;height:96px;margin-top:2rem}
+.xr-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--hair-2)}
+.xr-row{border-bottom:1px solid var(--hair-2)}
+.xr-row>.fr-body{background:none;border-radius:10px;padding:0;box-shadow:none;transition:background .15s}
+html[data-theme="dark"] .xr-row>.fr-body{box-shadow:none}
+.xr-row:hover>.fr-body{box-shadow:none;background:color-mix(in srgb,var(--sel) 4%,transparent)}
+.xr-row .sel-box{border-radius:10px}
+.xr-head{display:grid;grid-template-columns:2.5rem minmax(0,1fr) auto 1.75rem;align-items:center;gap:.9rem;padding:.9rem .75rem}
+.xr-row.has-more .xr-head{cursor:pointer}
+.xr-head .logo{width:2.5rem;height:2.5rem}
+.xr-co{margin:0;font-size:1.0625rem;font-weight:500;letter-spacing:-.01em;line-height:1.3;color:var(--ink)}
+.xr-co a{position:relative;color:inherit;text-decoration:underline;text-decoration-color:var(--line);text-decoration-thickness:1px;text-underline-offset:3px;transition:color .15s,text-decoration-color .15s}
+.xr-co a:hover{color:var(--sel);text-decoration-color:var(--sel)}
+.xr-co a:focus-visible{outline:2px solid var(--sel);outline-offset:3px;border-radius:2px}
+.xr-role{margin:.15rem 0 0;font-size:.9375rem;font-weight:400;line-height:1.35;color:var(--muted)}
+.xr-date{margin:0;display:flex;align-items:center;gap:.4rem;font-size:.8125rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.xr-date .dot{flex:none;width:.4rem;height:.4rem;border-radius:50%;background:var(--live)}
+.xr-tg{position:relative;width:1.75rem;height:1.75rem;padding:0;border:1px solid var(--hair-2);border-radius:50%;background:var(--surface);color:var(--muted);cursor:pointer;transition:color .15s,border-color .15s,background .15s}
+.xr-tg span{position:absolute;inset:0;transition:transform .3s cubic-bezier(.3,.8,.3,1.2)}
+.xr-tg span::before,.xr-tg span::after{content:"";position:absolute;left:50%;top:50%;width:.6rem;height:1.5px;margin:-.75px 0 0 -.3rem;border-radius:1px;background:currentColor}
+.xr-tg span::after{transform:rotate(90deg)}
+.xr-row:hover .xr-tg{color:var(--sel);border-color:var(--sel)}
+.xr-tg:focus-visible{outline:2px solid var(--sel);outline-offset:2px}
+.xr-row.is-open .xr-tg span{transform:rotate(45deg)}
+.xr-more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.2,.7,.2,1)}
+.xr-more-in{min-height:0;overflow:hidden;visibility:hidden;opacity:0;padding:0 .75rem 0 calc(.75rem + 2.5rem + .9rem);transition:opacity .25s,visibility 0s .45s}
+.xr-row.is-open .xr-more,.xr-row.is-hl .xr-more{grid-template-rows:1fr}
+.xr-row.is-open .xr-more-in,.xr-row.is-hl .xr-more-in{visibility:visible;opacity:1;transition:opacity .35s .1s,visibility 0s}
+.xr-desc{margin:0 0 1rem;font-size:.9375rem;line-height:1.7;color:var(--muted)}
+.xr-more .cset{margin:0 0 1.1rem}
+@media (max-width:860px){
+  .xr-wrap{grid-template-columns:minmax(0,1fr);gap:2rem}
+  .xr-side{position:static;display:flex;align-items:center;justify-content:space-between;gap:1.25rem}
+  .xr-badge{margin-top:0;flex:none;width:80px;height:80px}
+}
+@media (max-width:560px){
+  .xr-head{grid-template-columns:2.5rem minmax(0,1fr) 1.75rem;gap:.25rem .75rem;padding:.8rem .5rem}
+  .xr-date{grid-column:2/-1;grid-row:2}
+  .xr-more-in{padding-left:.5rem;padding-right:.5rem}
+}
+@media (prefers-reduced-motion:reduce){.xr-more,.xr-more-in,.xr-tg span,.xr-row>.fr-body{transition:none}}
 
 /* Case studies: two frames side by side, each one opens its own page. The grid is wider than the text column,
    but never runs under the Layers / Design panels when they're open. */
@@ -252,11 +273,8 @@ h1{margin:0;font-size:clamp(3.25rem,12vw,5.5rem);font-weight:500;line-height:1;l
 .stack-ico{height:28px;width:auto;display:block}
 @media (max-width:560px){.stack-ico{height:24px}}
 
-/* Beyond the 9-to-5: freelance/consulting clients as a row of logos */
-.beyond{padding-top:2rem;padding-bottom:6rem}
-.by-sub{margin:1.25rem 0 0;max-width:32rem;font-size:.9375rem;line-height:1.65;color:var(--muted)}
-.by-set{margin-top:3rem}
-.by-card{position:relative;display:flex;align-items:center;justify-content:center;height:8.5rem;padding:1.25rem}
+/* Freelance clients (inside the Freelance role of Work experience): logos as component variants */
+.by-card{position:relative;display:flex;align-items:center;justify-content:center;height:6.5rem;padding:1rem}
 .by-mark{display:flex;align-items:center;justify-content:center;max-width:100%}
 .by-logo{display:block;width:auto;height:auto;max-width:100%}
 .by-l-citrus{max-height:38px}
@@ -309,7 +327,7 @@ h1{margin:0;font-size:clamp(3.25rem,12vw,5.5rem);font-weight:500;line-height:1;l
 .testimonials{padding-top:2rem;padding-bottom:6rem}
 .tm-head-wrap{container-type:inline-size}
 .tm-head{margin:0;white-space:nowrap;font-size:6.1cqw}
-.tm-marquee{margin-top:2.5rem;overflow:hidden;
+.tm-marquee{width:min(calc(100% - 2*var(--gl-pad)),1400px);margin:2.5rem auto 0;overflow:hidden;transition:width .35s cubic-bezier(.2,.7,.2,1);
   mask-image:linear-gradient(90deg,transparent 0,#000 3%,#000 97%,transparent 100%);
   -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 3%,#000 97%,transparent 100%)}
 .tm-track{display:flex;align-items:flex-start;width:max-content;padding:.75rem 0;
@@ -341,12 +359,19 @@ h1{margin:0;font-size:clamp(3.25rem,12vw,5.5rem);font-weight:500;line-height:1;l
 
 /* Gallery: three columns of photos that drift upward out of a blurred edge; click one to open it large */
 .gallery{padding-top:2rem;padding-bottom:6rem}
+/* Testimonials and Off the grid share one content width: the full page minus this side padding (which clears the Layers and
+   Design panels when they are open), up to 1400px. */
+.gallery,.testimonials{--gl-pad:clamp(.5rem,1.2vw,1rem)}
+@media (min-width:1200px) and (hover:hover) and (pointer:fine){
+  .gallery,.testimonials{--gl-pad:calc(12px + 236px + 24px)}
+  html[data-inspect="off"] .gallery,html[data-inspect="off"] .testimonials{--gl-pad:clamp(.5rem,1.2vw,1rem)}
+}
 .gl-head-wrap{container-type:inline-size}
 .gl-head{margin:0;white-space:nowrap;font-size:min(2.5rem,7.1cqw)}
 .gl-clock{display:inline-block;width:.8em;height:.8em;margin-left:.3em;vertical-align:-.04em;color:var(--ink)}
 .gl-hand-h,.gl-hand-m{transform-box:view-box;transform-origin:12px 12px}
 .gl-sub{margin:1.25rem 0 0;max-width:32rem;font-size:.9375rem;line-height:1.65;color:var(--muted)}
-.gl-window{position:relative;margin-top:3rem;height:clamp(32rem,90vh,52rem);overflow:hidden;padding:0 clamp(.5rem,1.2vw,1rem);transition:padding .35s cubic-bezier(.2,.7,.2,1);
+.gl-window{position:relative;margin-top:3rem;height:clamp(32rem,90vh,52rem);overflow:hidden;padding:0 var(--gl-pad);transition:padding .35s cubic-bezier(.2,.7,.2,1);
   -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 18%,#000 82%,transparent 100%);
   mask-image:linear-gradient(to bottom,transparent 0,#000 18%,#000 82%,transparent 100%)}
 .gl-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;height:100%;max-width:1400px;margin:0 auto}
@@ -365,10 +390,6 @@ h1{margin:0;font-size:clamp(3.25rem,12vw,5.5rem);font-weight:500;line-height:1;l
   -webkit-mask-image:linear-gradient(to var(--d),#000 0,transparent 100%);mask-image:linear-gradient(to var(--d),#000 0,transparent 100%)}
 .gl-fade::after{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
   -webkit-mask-image:linear-gradient(to var(--d),#000 0,transparent 55%);mask-image:linear-gradient(to var(--d),#000 0,transparent 55%)}
-@media (min-width:1200px) and (hover:hover) and (pointer:fine){
-  .gl-window{padding-left:calc(12px + 236px + 24px);padding-right:calc(12px + 236px + 24px)}
-  html[data-inspect="off"] .gl-window{padding-left:clamp(.5rem,1.2vw,1rem);padding-right:clamp(.5rem,1.2vw,1rem)}
-}
 @media (max-width:560px){
   .gl-window{height:clamp(28rem,78vh,40rem)}
   .gl-cols{gap:.4rem}
@@ -805,8 +826,7 @@ html.fx, html.fx *{cursor:none !important}
 
 /* Beyond the Case Studies: one row of tiles that scrolls sideways. Every tile has the same height and a width from its aspect
    ratio (--ar), so nothing is cropped. Clicking a tile opens the full-size viewer. */
-.cases.sd{--cc-w:72rem;padding-top:0}
-@media (max-width:860px){.cases.sd{--cc-w:36rem}}
+.cases.sd{padding-top:0}  /* same width as the Case studies grid: it inherits --cc-w / --cc-pad from .cases */
 .sd-frame{width:min(calc(100vw - 2*var(--cc-pad)),var(--cc-w));margin:3.5rem auto 0}
 .fr-body.sd-board{padding:.75rem}
 .fr-body.sd-board{position:relative}
