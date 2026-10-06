@@ -12,6 +12,7 @@ character called Pixel.
 - `lib/markup.ts` – page HTML as a string (ported 1:1 from the approved preview)
 - `lib/canvas.js` – all interactions (vanilla JS, runs once on mount)
 - `components/canvas-client.tsx` – client component that calls `initCanvas()`
+- `lib/selected-designs.ts` – the "Beyond the Case Studies" section (one row of tiles that drifts sideways on its own) (markup + Layers rows + the full-size viewer dialog); the viewer's behaviour is the "Beyond the Case Studies viewer" block in `lib/canvas.js`. Images: `public/selected/<name>.webp` (1600px, shown in the collage) and `public/selected/full/<name>.webp` (original size, shown in the viewer). Every tile has the same height and a width from its aspect ratio (nothing is cropped); the row auto-scrolls in an endless loop (JS adds two copies of the tiles; it pauses on hover, drag, touch, keyboard focus and while the viewer is open; with reduced motion it doesn't move or loop) and can also be moved by trackpad, mouse drag or the side arrows ("Beyond the Case Studies row" block in `lib/canvas.js`). To add one, add it to `DESIGNS` with both image sizes.
 - `lib/chrome.ts` – the markup every canvas page repeats (top bar toggles, link bar, cursor, Design panel); `lib/markup.ts` and the case study both build from it
 
 ### Case studies
@@ -41,7 +42,7 @@ Each case study is its own route under `app/case-studies/<slug>/` and reuses the
 - Email: figmaebae@gmail.com (press C to copy)
 - LinkedIn, Twitter/X, Medium links: `LINKS` object in `lib/canvas.js`
 - Resume: `public/resume.pdf`, linked through `LINKS.resume` in `lib/canvas.js` (opens in a new tab)
-- Home page order: Hero, Case studies (BexCard, Chat360, Quorum), Experience (WASP, Mimothi Solutions), Beyond the 9-to-5, Testimonials, Skills, Writing, Stack, Off the grid (gallery), Footer (contact). The Layers panel rows follow the same order.
+- Home page order: Hero, Case studies (BexCard, Chat360, Quorum), Beyond the Case Studies (six designs in a horizontally scrolling row; click one for the full-size viewer), Experience (WASP, Mimothi Solutions), Beyond the 9-to-5, Testimonials, Skills, Writing, Stack, Off the grid (gallery), Footer (contact). The Layers panel rows follow the same order.
 - Experience: WASP (current, works on Consequence), BexCard, Chat360, Mimothi Solutions (intern). BexCard and Chat360 appear both under Work experience (plain job cards, ids `fr-exp-*`) and as case-study cards in the Case studies section (ids `fr-bexcard`, `fr-chat360`, which the case pages' back links return to). Quorum is a client project (names changed for confidentiality in the case study); its card shows "Solo product designer · 4–6 months" because no dates were given.
 - Company logos are base64 images cropped from a screenshot (low-res). Replace with
   official logo files in `/public` when available.

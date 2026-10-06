@@ -802,3 +802,68 @@ html.fx, html.fx *{cursor:none !important}
 @keyframes pop{from{opacity:0;transform:scale(.4)}}
 .hero .dims{animation-name:popd}
 @keyframes popd{from{opacity:0;transform:translate(-50%,-4px)}}
+
+/* Beyond the Case Studies: one row of tiles that scrolls sideways. Every tile has the same height and a width from its aspect
+   ratio (--ar), so nothing is cropped. Clicking a tile opens the full-size viewer. */
+.cases.sd{--cc-w:72rem;padding-top:0}
+@media (max-width:860px){.cases.sd{--cc-w:36rem}}
+.sd-frame{width:min(calc(100vw - 2*var(--cc-pad)),var(--cc-w));margin:3.5rem auto 0}
+.fr-body.sd-board{padding:.75rem}
+.fr-body.sd-board{position:relative}
+.sd-collage{--sd-h:clamp(220px,32vw,340px);overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;padding:.6rem .75rem;margin:-.6rem -.75rem;cursor:grab;scrollbar-width:thin;scrollbar-color:var(--line) transparent;-webkit-overflow-scrolling:touch}
+.sd-collage.is-loop{scrollbar-width:none}
+.sd-collage.is-loop::-webkit-scrollbar{display:none}
+.sd-collage.is-drag{cursor:grabbing;user-select:none;-webkit-user-select:none}
+.sd-collage.is-drag .sd-open{cursor:grabbing}
+.sd-collage:focus{outline:none}
+.sd-row{display:flex;gap:.75rem;width:max-content;height:var(--sd-h)}
+.sd-tile{position:relative;margin:0;flex:none;height:100%;aspect-ratio:var(--ar);border-radius:10px;overflow:hidden;background:var(--img-bg);box-shadow:0 0 0 1px var(--hair);
+  transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+.sd-tile:hover,.sd-tile:focus-within{transform:translateY(-3px);box-shadow:0 0 0 1px var(--hair),0 16px 32px -16px rgba(0,0,0,.35)}
+.sd-open{position:relative;display:block;width:100%;height:100%;padding:0;margin:0;border:0;background:none;color:inherit;font:inherit;cursor:zoom-in;border-radius:inherit}
+.sd-open:focus-visible{outline:2px solid var(--sel);outline-offset:-2px}
+.sd-open img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none;-webkit-user-drag:none;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.sd-tile:hover .sd-open img,.sd-open:focus-visible img{transform:scale(1.035)}
+.sd-chip{position:absolute;left:.6rem;bottom:.6rem;max-width:calc(100% - 1.2rem);padding:.4rem .7rem;border-radius:999px;background:var(--surface);color:var(--ink);box-shadow:0 0 0 1px var(--hair),0 6px 16px -8px rgba(0,0,0,.3);
+  font:500 .75rem/1 var(--font);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transform:translateY(6px);transition:opacity .25s,transform .25s}
+.sd-exp{position:absolute;top:.6rem;right:.6rem;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--surface);color:var(--ink);box-shadow:0 0 0 1px var(--hair),0 6px 16px -8px rgba(0,0,0,.3);
+  opacity:0;transform:scale(.85);transition:opacity .25s,transform .25s}
+.sd-tile:hover .sd-chip,.sd-tile:hover .sd-exp,.sd-open:focus-visible .sd-chip,.sd-open:focus-visible .sd-exp{opacity:1;transform:none}
+@media (hover:none){.sd-chip,.sd-exp{opacity:1;transform:none}}
+/* arrows that nudge the row by about a screenful; the first one hides at the start, the second at the end */
+.sd-arrow{position:absolute;top:50%;margin-top:-22px;z-index:2;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:var(--surface);color:var(--ink);
+  box-shadow:0 0 0 1px var(--hair),0 10px 24px -10px rgba(0,0,0,.4);cursor:pointer;transition:transform .2s,background .2s}
+.sd-arrow[hidden]{display:none}
+.sd-arrow:hover{background:var(--sel);color:#fff;transform:scale(1.06)}
+.sd-arrow:focus-visible{outline:2px solid var(--sel);outline-offset:2px}
+.sd-arrow-l{left:1.25rem}.sd-arrow-r{right:1.25rem}
+@media (hover:none){.sd-arrow{display:none}}
+
+/* full-size viewer */
+.sd-view{position:fixed;inset:0;z-index:45;display:flex;align-items:center;justify-content:center;background:rgba(14,14,16,.94);opacity:0;transition:opacity .2s}
+.sd-view[hidden]{display:none}
+.sd-view:not(.open){pointer-events:none}
+.sd-view.open{opacity:1}
+.sd-view-stage{position:absolute;inset:3.75rem 4.75rem 4.75rem;display:flex;overflow:auto;overscroll-behavior:contain}
+.sd-view-img{display:block;margin:auto;flex:none;width:var(--fw,auto);height:var(--fh,auto);border-radius:8px;cursor:zoom-in;background:var(--img-bg);box-shadow:0 20px 60px -20px rgba(0,0,0,.6);
+  opacity:0;transform:scale(.97);transition:opacity .25s,transform .3s cubic-bezier(.2,.7,.2,1)}
+.sd-view.open .sd-view-img.ready{opacity:1;transform:none}
+.sd-view.zoom .sd-view-img{width:var(--nw);height:var(--nh);cursor:zoom-out}
+.sd-btn{position:absolute;display:grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid rgba(255,255,255,.18);border-radius:50%;background:rgba(255,255,255,.1);color:#fff;cursor:pointer;z-index:1;transition:background .15s,border-color .15s}
+.sd-btn:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.35)}
+.sd-btn:focus-visible{outline:2px solid var(--sel);outline-offset:2px}
+.sd-close{top:1rem;right:1rem}
+.sd-nav{top:50%;margin-top:-22px}
+.sd-prev{left:1rem}.sd-next{right:1rem}
+.sd-view-cap{position:absolute;left:50%;bottom:1.1rem;transform:translateX(-50%);display:flex;align-items:center;gap:.6rem;max-width:calc(100vw - 2rem);margin:0;padding:.55rem 1rem;border-radius:999px;
+  background:rgba(255,255,255,.1);color:rgba(255,255,255,.6);font:500 .8125rem/1 var(--font);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sd-view-cap #sd-view-n{color:#fff;font-weight:600}
+.sd-view-cap b{color:#fff;font-weight:500;padding-left:.7rem;border-left:1px solid rgba(255,255,255,.2);overflow:hidden;text-overflow:ellipsis}
+.sd-view-cap em{font-style:normal;padding-left:.7rem;border-left:1px solid rgba(255,255,255,.2)}
+html.sd-locked body{overflow:hidden}
+@media (max-width:640px){
+  .sd-view-stage{inset:3.5rem .75rem 4.5rem}
+  .sd-nav{top:auto;bottom:.9rem;margin:0}.sd-prev{left:.75rem}.sd-next{right:.75rem}
+  .sd-view-cap em{display:none}
+}
+@media (prefers-reduced-motion:reduce){.sd-tile,.sd-open img,.sd-chip,.sd-exp,.sd-view,.sd-view-img,.sd-arrow{transition:none}}
