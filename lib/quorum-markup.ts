@@ -9,7 +9,7 @@ import { DG_DEPS, DG_SWIM, DG_ROUTE } from "./quorum-diagrams";
 
 const IMG = "/case-studies/quorum/";
 /* [width, height] of every screenshot, so the browser can reserve the space before it loads */
-const DIMS: Record<string, [number, number]> = { "m-dash-top": [1027, 2200], "m-web-top": [800, 1713], "site-home": [1000, 651], "site-industries": [1000, 605], "site-features": [1000, 558], "site-pricing": [1000, 790], "site-resources": [1000, 698], "site-demo": [1000, 465], "step-pr": [1400, 3743], "step-approval": [1400, 2191], "step-po": [1400, 3429], "step-grn": [1400, 2579], "step-invoice": [1400, 2865], ai: [975, 1542], ai_context: [1472, 1120], appr_overview: [2880, 2228], book_avail: [1426, 2738], book_cal: [2880, 2049], book_overview: [2880, 2049], dash_approvals: [500, 530], dash_desktop: [1280, 1842], hero_devices: [2012, 1132], inv_overview: [2880, 2049], multi_dash: [2856, 2270], multi_entities: [2880, 2048], multi_reports: [2853, 2434], onb_done: [2880, 2438], onb_login: [2880, 2048], onb_step1: [2880, 2428], onb_step3: [2880, 3836], onb_step7: [2880, 5276], ord_invoice: [2880, 4470], ord_overview: [2880, 2300], proc_list: [2880, 2049], proc_overview: [2880, 2049], proc_qc: [1530, 1346], rep_fields: [2880, 2056], rep_pre: [2881, 2726], rep_trend: [2880, 2056], set_main: [2880, 2049], };
+const DIMS: Record<string, [number, number]> = { "m-dash-new": [454, 1000], "m-dash-top": [1027, 2200], "m-web-top": [800, 1713], "site-home": [1000, 651], "site-industries": [1000, 605], "site-features": [1000, 558], "site-pricing": [1000, 790], "site-resources": [1000, 698], "site-demo": [1000, 465], "step-pr": [1400, 3743], "step-approval": [1400, 2191], "step-po": [1400, 3429], "step-grn": [1400, 2579], "step-invoice": [1400, 2865], ai: [975, 1542], ai_context: [1472, 1120], appr_overview: [2880, 2228], book_avail: [1426, 2738], book_cal: [2880, 2049], book_overview: [2880, 2049], dash_approvals: [500, 530], dash_desktop: [1280, 1842], hero_devices: [2012, 1132], inv_overview: [2880, 2049], multi_dash: [2856, 2270], multi_entities: [2880, 2048], multi_reports: [2853, 2434], onb_done: [2880, 2438], onb_login: [2880, 2048], onb_step1: [2880, 2428], onb_step3: [2880, 3836], onb_step7: [2880, 5276], ord_invoice: [2880, 4470], ord_overview: [2880, 2300], proc_list: [2880, 2049], proc_overview: [2880, 2049], proc_qc: [1530, 1346], rep_fields: [2880, 2056], rep_pre: [2881, 2726], rep_trend: [2880, 2056], set_main: [2880, 2049], };
 
 /* ---------- small helpers ---------- */
 const a = (s: string) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
@@ -49,6 +49,36 @@ function fig(file: string, alt: string, cap: string, zoom: string, bold?: string
   return `<figure class="q-fig"><div class="q-sc${tall ? " tall" : ""}">${qshot(file, alt, { layer: bold ?? alt, zoom })}</div><figcaption>${bold ? `<b>${bold}.</b> ` : ""}${cap}</figcaption></figure>`;
 }
 
+/** The part of each screen its sneak peek shows: [x, y, w] = the left edge, top edge and width of the visible window, as % of the image.
+ *  Picked per screen so the element the caption talks about is in view and the rest of the screen is cut off (the product isn't launched). */
+const PEEK_CROP: Record<string, [number, number, number]> = {
+  ord_invoice: [0, 24, 100],     // line items and the cost summary, with the dimmed list behind
+  proc_list: [17, 8, 50],        // the lifecycle tabs and the top of the list
+  appr_overview: [38, 6, 60],    // approved / rejected / SLA breaches counts and the top of the queue
+  dash_approvals: [0, 4, 100],   // the pending-approvals card: priority, amount, requester, approve
+  ai_context: [40, 24, 60],      // the procurement workflow with the AI drawer beside it
+  ai: [0, 29, 100],              // the vendor answer and "View full report"
+  onb_step1: [33, 13, 64],       // the required organisation and tax fields
+  onb_done: [33, 44, 64],        // module status rows with their configured / pending marks
+  book_overview: [17, 24, 56],   // today's schedule and the weekly utilisation chart
+  book_avail: [0, 2, 100],       // availability by day, with start and end times
+  multi_entities: [17, 14, 52],  // the entity cards: status, role, last accessed
+  multi_reports: [18, 25, 70],   // revenue by entity over time
+  rep_fields: [18, 19, 68],      // the five-step stepper and the field chips
+  rep_pre: [18, 12, 80],         // the pre-built reports table
+};
+const PEEK_ASPECT = 1.6;
+/** A sneak peek of a screen: a fixed window onto the part the caption is about, with a soft fade at the edges, no enlarge button. */
+function peek(file: string, alt: string, cap: string, bold?: string) {
+  const [w, h] = DIMS[file];
+  const [x, y, cw] = PEEK_CROP[file] ?? [0, 0, 100];
+  const layer = bold ?? alt;
+  const imgW = (10000 / cw).toFixed(2);
+  const left = (-(x / cw) * 100).toFixed(2);
+  const top = (-(y / cw) * (h / w) * PEEK_ASPECT * 100).toFixed(2);
+  return `<figure class="q-fig"><div class="q-peek"><img class="q-shot" src="${IMG}${file}.webp" alt="${a(alt)}" width="${w}" height="${h}" loading="lazy" decoding="async" draggable="false" style="width:${imgW}%;left:${left}%;top:${top}%" data-layer="${a(layer)}" data-kind="image"><span class="q-peek-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Sneak peek</span></div><figcaption>${bold ? `<b>${bold}.</b> ` : ""}${cap}</figcaption></figure>`;
+}
+
 /** A browser window around some content. */
 const bw = (inner: string, url = "") =>
   `<div class="c3-bw"><div class="c3-bar" aria-hidden="true"><i></i><i></i><i></i>${url ? `<span>${url}</span>` : ""}</div>${inner}</div>`;
@@ -61,7 +91,7 @@ function section(id: string, layer: string, label: string, sans: string, serif: 
   return `<section class="cs-sec cs-wrap" id="${id}" data-layer="${a(layer)}" data-kind="frame" aria-labelledby="${id}-h">
   <p class="fr-label">${GRID}${label}</p>
   ${title(id + "-h", sans, serif)}
-  ${intro ? `<p class="cs-sub">${intro}</p>` : ""}
+  ${intro ? `<p class="cs-sub q-wide">${intro}</p>` : ""}
   ${body}
 </section>`;
 }
@@ -73,7 +103,7 @@ const tile = (id: string, layer: string, label: string, inner: string, cls = "")
 const stat = (n: number, pre: string, suf: string) =>
   `<div class="cs-stat"><span class="sr-only">${pre}${n}${suf}</span><span aria-hidden="true">${pre}<span class="cs-num" data-to="${n}">${n}</span>${suf ? `<span class="ti-serif cs-suf">${suf}</span>` : ""}</span></div>`;
 
-const sub = (h: string, p?: string) => `<h3 class="cs-h3 cs-gap">${h}</h3>${p ? `<p class="cs-sub">${p}</p>` : ""}`;
+const sub = (h: string, p?: string) => `<h3 class="cs-h3 cs-gap">${h}</h3>${p ? `<p class="cs-sub q-wide">${p}</p>` : ""}`;
 
 /** Component-set tab strip + hidden panels (the decisions). */
 function variantSet(opts: { id: string; layer: string; label: string; prop: string; tabs: string[]; panels: string[]; hash: string }) {
@@ -318,7 +348,7 @@ const LEARN: [string, string][] = [
 const hero = `<header class="cs-hero cs-wrap" id="cs-hero" data-layer="Hero" data-kind="frame">
   <p class="fr-label reveal">${GRID}Case study · Product design · B2B SaaS · ERP for Indian SMEs</p>
   <h1 class="cs-h1 reveal"><span class="sel" id="sel" data-cursor="Quorum, one login, one stock record." data-layer="Quorum, one login, one stock record." data-kind="text">Quorum,<br><span class="ti-serif">one login,<br>one stock record.</span>${SEL_CHROME}<span class="dims" id="dims" aria-hidden="true">Hug × Hug</span></span></h1>
-  <p class="about cs-lede reveal" id="cs-lede" data-layer="Summary" data-kind="text">Quorum is an ERP for Indian small businesses. It runs procurement, inventory, orders, bookings and approvals in one product. I <b>designed it end to end</b>, from competitor research to the full app and its marketing website, for mobile, tablet and desktop.</p>
+  <p class="about cs-lede q-wide reveal" id="cs-lede" data-layer="Summary" data-kind="text">Quorum is an ERP for Indian small businesses. It runs procurement, inventory, orders, bookings and approvals in one product. I <b>designed it end to end</b>, from competitor research to the full app and its marketing website, for mobile, tablet and desktop.</p>
   <ul class="cs-pills reveal" role="list" id="cs-pills" data-layer="Project details" data-kind="frame">
     <li class="cs-pill"><span class="dot" aria-hidden="true"></span>Design complete, in development</li>
     <li class="cs-pill">Role · Solo product designer</li>
@@ -348,13 +378,10 @@ const impact = `<section class="cs-sec cs-wrap" id="cs-impact" data-layer="At a 
   </div>
 </section>`;
 
+/* Role, timeline, platforms and status are already in the hero pills, so only the two facts the pills don't carry are listed here. */
 const FACTS: [string, string, string, string][] = [
-  ["cs-role-1", "Role", "Solo product designer", ""],
   ["cs-role-2", "Team", "Worked directly with the client's founders", ""],
-  ["cs-role-3", "Timeline", "4–6 months, research to handoff", ""],
   ["cs-role-4", "Scope", "Research, IA, flows, UI, website", ""],
-  ["cs-role-5", "Platforms", "Mobile · Tablet · Desktop", ""],
-  ["cs-role-6", "Status", "Design complete, in development", ""],
 ];
 const about = `<section class="cs-sec cs-tight cs-wrap" id="cs-about" data-layer="Role and team" data-kind="frame" aria-label="Role and team">
   <div class="q-facts">
@@ -391,10 +418,11 @@ const research = section(
     <button type="button" class="q-fbtn" data-f="Goods" aria-pressed="false">Goods tools</button>
     <button type="button" class="q-fbtn" data-f="Services" aria-pressed="false">Booking tools</button>
   </div>
-  <div class="q-comp" id="q-comp" data-layer="Competitors" data-kind="frame">
+  <div class="q-comp" id="q-comp" data-layer="Competitors" data-kind="frame" role="list">
+    <div class="q-comp-head" aria-hidden="true"><span>Competitor</span><span>Why people buy it</span><span>Where it stops</span></div>
     ${COMP.map(
       (c) =>
-        `<article class="cs-card q-cc" data-grp="${c.grp}"><span class="q-grp">${c.grp}</span><header><h4 class="cs-h4">${c.name}</h4><span class="q-vibe">${c.vibe}</span></header><p class="q-plus">${c.plus}</p><p class="q-minus">${c.minus}</p></article>`,
+        `<article class="q-cc" role="listitem" data-grp="${c.grp}"><header><span class="q-grp">${c.grp}</span><h4 class="cs-h4">${c.name}</h4><span class="q-vibe">${c.vibe}</span></header><p class="q-plus"><span class="sr-only">Why people buy it: </span>${c.plus}</p><p class="q-minus"><span class="sr-only">Where it stops: </span>${c.minus}</p></article>`,
     ).join("")}
   </div>
   ${sub("Feature depth: nobody covers procurement, inventory, sales and bookings together", "Ratings from my teardown, on a four-step scale from basic data entry to best-in-class.")}
@@ -412,6 +440,43 @@ const research = section(
   </div>`,
 );
 
+/* The sidebar as a sitemap: the shell and its two neighbours on top, then the eight sections in four groups, each with its pages. */
+const GROUPS = [
+  { name: "Watch", key: "watch" },
+  { name: "Buy & stock", key: "buy" },
+  { name: "Sell & serve", key: "sell" },
+  { name: "Insight & control", key: "insight" },
+];
+const SHELL_PARTS = ["Sidebar", "Global search", "Entity switcher", "Notifications", "AI drawer", "Profile"];
+const SITEMAP = `<div class="fr q-smfr cs-bleed" id="q-sitemap" data-cursor="Sidebar sections" data-layer="Sidebar sections" data-kind="frame" data-measure=".fr-body">
+    <p class="fr-label">${GRID}The sidebar · eight sections and their pages</p>
+    <div class="fr-body q-map">
+      <div class="q-mtop" id="q-shell" data-layer="Around the sidebar" data-kind="frame">
+        <div class="q-mbox q-side" id="q-sh-1" data-layer="Before the shell" data-kind="frame"><span class="q-mk">Before the shell</span><h3 class="q-mt">Onboarding</h3><p>6 required questions, then optional module setup.</p></div>
+        <div class="q-mbox q-core" id="q-sh-2" data-layer="App shell" data-kind="frame"><h3 class="q-mt">App shell</h3><ul class="q-parts" role="list">${SHELL_PARTS.map((x) => `<li>${x}</li>`).join("")}</ul></div>
+        <div class="q-mbox q-side" id="q-sh-3" data-layer="Separate console" data-kind="frame"><span class="q-mk">Separate console</span><h3 class="q-mt">Super admin</h3><p>Tenants, plans and feature flags, logs, impersonation.</p></div>
+      </div>
+      <div class="q-mstems" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <ul class="q-mcols" role="list">
+        ${GROUPS.map(
+          (g) => `<li class="q-mg" data-g="${g.key}">
+          <p class="q-mgl">${g.name}</p>
+          ${MODS.filter((m) => m.grp === g.name)
+            .map(
+              (m) => `<section class="q-mm" aria-label="${a(m.name)}">
+            <header class="q-mmh"><h4>${m.name}</h4><span>${m.tag}</span></header>
+            <ul class="q-mpg" role="list">${m.pages.map(([pg, f]) => `<li>${pg}${f ? '<i title="Opens as a floating panel over its list" aria-label="floating panel"></i>' : ""}</li>`).join("")}</ul>
+          </section>`,
+            )
+            .join("")}
+        </li>`,
+        ).join("")}
+      </ul>
+      <p class="q-legend"><span><i aria-hidden="true"></i>Opens as a floating panel over its list</span><span class="q-lk" data-g="buy"><b aria-hidden="true"></b>Buy &amp; stock</span><span class="q-lk" data-g="sell"><b aria-hidden="true"></b>Sell &amp; serve</span><span class="q-lk" data-g="insight"><b aria-hidden="true"></b>Insight &amp; control</span></p>
+      ${SEL_CHROME}<span class="dims" aria-hidden="true"></span>
+    </div>
+  </div>`;
+
 const ia = section(
   "q-ia",
   "03 · Information architecture",
@@ -419,37 +484,11 @@ const ia = section(
   "One shell, eight sections",
   "in the sidebar",
   "Research mapped ten modules. I grouped them by the job the owner is doing, so the final sidebar has eight sections: watch the business, buy and stock, sell and serve, then insight and control.",
-  `<div class="cs-bento q-shell3" id="q-shell" data-layer="Around the sidebar" data-kind="frame">
-    ${tile("q-sh-1", "Before the shell", "Before the shell", "<h3 class=\"cs-h4\">Onboarding</h3><p>6 required questions, then optional module setup.</p>", "cs-third")}
-    ${tile("q-sh-2", "App shell", "App shell", `<h3 class="cs-h4">One frame around everything</h3><ul class="q-parts" role="list"><li>Sidebar</li><li>Global search</li><li>Entity switcher</li><li>Notifications</li><li>AI drawer</li><li>Profile</li></ul>`, "cs-third inv")}
-    ${tile("q-sh-3", "Separate console", "Separate console", "<h3 class=\"cs-h4\">Super admin</h3><p>Tenants, plans and feature flags, logs, impersonation.</p>", "cs-third")}
-  </div>
-  <div class="fr q-smfr" id="q-sitemap" data-cursor="Sidebar sections" data-layer="Sidebar sections" data-kind="frame" data-measure=".fr-body">
-    <p class="fr-label">${GRID}The sidebar · pick a section to see its pages</p>
-    <div class="fr-body">
-      <div class="q-mods" role="tablist" aria-label="Sidebar sections" data-tabs="sitemap">
-        ${MODS.map(
-          (m, i) =>
-            `<button class="q-mod" type="button" role="tab" id="q-mt-${i}" aria-controls="q-mp-${i}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" style="--gc:${m.gc}" data-cursor="${a(m.name)}"><i aria-hidden="true"></i><span>${m.name}</span></button>`,
-        ).join("")}
-      </div>
-      <div class="q-modpanels">
-        ${MODS.map(
-          (m, i) =>
-            `<div class="q-modp" role="tabpanel" id="q-mp-${i}" aria-labelledby="q-mt-${i}" style="--gc:${m.gc}"${i === 0 ? "" : " hidden"}>
-          <div class="q-modh"><span class="q-grp">${m.grp}</span><h3 class="cs-h3 cs-lg">${m.name}</h3><span class="q-tag">${m.tag}</span></div>
-          <ul class="q-pages" role="list">${m.pages.map(([p, f]) => `<li>${p}${f ? '<i title="Opens as a floating panel over its list" aria-label="floating panel">▣</i>' : ""}</li>`).join("")}</ul>
-        </div>`,
-        ).join("")}
-      </div>
-      <p class="q-legend"><span><i>▣</i>Opens as a floating panel over its list</span></p>
-      ${SEL_CHROME}<span class="dims" aria-hidden="true"></span>
-    </div>
-  </div>
+  `${SITEMAP}
   ${sub("How the sections connect: inventory sits in the middle of everything", "The hybrid model works because every module writes to one stock record. This is the data path behind P1.")}
-  <figure class="q-dg" id="q-deps" data-layer="Data paths between modules" data-kind="frame">
+  <figure class="q-dg cs-bleed" id="q-deps" data-layer="Data paths between modules" data-kind="frame">
     <div class="q-dgs q-mid" role="region" aria-label="Diagram: how modules change inventory" tabindex="0">${DG_DEPS}</div>
-    <figcaption><b>Blue arrows change stock.</b> Goods come in through procurement and go out through orders and bookings. The dashboard only reads stock. Its one action is a quick approve, and anything complex goes to Approvals.</figcaption>
+    <figcaption><b>Teal arrows change stock.</b> Goods come in through procurement and go out through orders; an accepted return puts them back. Bookings share the catalogue. The dashboard only reads stock. Its one action is a quick approve, and anything complex goes to Approvals.</figcaption>
   </figure>`,
 );
 
@@ -460,9 +499,9 @@ const flows = section(
   "Procure to pay,",
   "lane by lane",
   "The longest chain in the product crosses five roles and the system. Read it top to bottom: each column is a role, so you can see exactly where work changes hands.",
-  `<figure class="q-dg q-swimfig" id="q-swim" data-layer="Procure-to-pay swimlane" data-kind="frame">
+  `<figure class="q-dg q-swimfig cs-bleed" id="q-swim" data-layer="Procure-to-pay swimlane" data-kind="frame">
     <div class="q-dgs q-swim" role="region" aria-label="Swimlane diagram: procure to pay" tabindex="0">${DG_SWIM}</div>
-    <figcaption><b>Six hand-offs, one record.</b> Dashed boxes are automatic. Rejections go back to the requester with a reason, and stock moves only after QC, not when goods arrive.</figcaption>
+    <figcaption><b>Six hand-offs, one record.</b> The dashed box is automatic. Rejections go back to the requester with a reason, and stock moves only after QC, not when goods arrive.</figcaption>
   </figure>
   ${sub("The screens behind each numbered step", "Six steps, six panels, laid out as one board in the order the flow runs (1, 3 and 5 on the left; 2, 4 and 6 on the right). Point at a panel, or at its step underneath, to light it up.")}
   <div class="fr q-stepfr" id="q-steps" data-cursor="Screens for each step" data-layer="Screens for each step" data-kind="frame" data-measure=".fr-body">
@@ -484,7 +523,7 @@ const flows = section(
     </div>
   </div>
   ${sub("Smart routing: three doors, five landing spots", "Trial users, buyers and returning users start differently. Two checks decide where each one lands, so nobody sees a wizard they don't need.")}
-  <figure class="q-dg" id="q-route" data-layer="Entry routing" data-kind="frame">
+  <figure class="q-dg cs-bleed" id="q-route" data-layer="Entry routing" data-kind="frame">
     <div class="q-dgs q-wide" role="region" aria-label="Decision tree: where each kind of user lands" tabindex="0">${DG_ROUTE}</div>
     <figcaption><b>Diamonds are system checks.</b> A returning buyer whose trial expired skips setup entirely, and only multi-entity owners ever see a picker.</figcaption>
   </figure>`,
@@ -511,7 +550,7 @@ const decisions = section(
           <div><span class="c3-pcl w">${d.d[0]}</span><p>${d.d[1]}</p></div>
         </div>
         ${d.wire ? wireframes : ""}
-        <div class="q-vis ${d.layout}">${d.shots.map((s) => fig(s.f, s.alt, s.cap, "dec" + i, s.b, s.tall)).join("")}</div>`,
+        <div class="q-vis ${d.layout}">${d.shots.map((s) => peek(s.f, s.alt, s.cap, s.b)).join("")}</div>`,
     ),
   })}
   ${sub("Same shell everywhere: learn one module, know them all", "Every module opens on its numbers and quick actions, then lists, then floating forms.")}
@@ -534,8 +573,8 @@ const responsive = section(
   "in the warehouse too",
   "I designed every dashboard screen and every website page for mobile, tablet and desktop. Owners check numbers on the move, and store staff receive goods with a phone in hand.",
   `<div class="q-devstage" id="q-devices" data-layer="Desktop and mobile dashboard" data-kind="frame">
-    <div class="q-dk"><img class="q-shot" src="${IMG}dash_desktop.webp" alt="Desktop dashboard with KPIs, sales vs procurement chart, inventory distribution, recent activity, pending approvals, operational metrics and quick actions" width="${DIMS.dash_desktop[0]}" height="${DIMS.dash_desktop[1]}" loading="lazy" decoding="async" data-layer="Dashboard, desktop" data-kind="image"></div>
-    <div class="q-ph"><img class="q-shot" src="${IMG}m-dash-top.webp" alt="Mobile dashboard: menu, 2 by 2 KPI grid and the start of the sales chart" width="${DIMS["m-dash-top"][0]}" height="${DIMS["m-dash-top"][1]}" loading="lazy" decoding="async" data-layer="Dashboard, mobile" data-kind="image"></div>
+    <div class="q-dk"><img class="q-shot" src="${IMG}dash_desktop.webp" alt="Desktop dashboard, top of the screen: sidebar, KPI row and the start of the sales vs procurement chart" width="${DIMS.dash_desktop[0]}" height="${DIMS.dash_desktop[1]}" loading="lazy" decoding="async" data-layer="Dashboard, desktop" data-kind="image"></div>
+    <div class="q-ph"><img class="q-shot" src="${IMG}m-dash-new.webp" alt="Mobile dashboard, top of the screen: menu, 2 by 2 KPI grid, a vendor alert and the start of the sales chart" width="${DIMS["m-dash-new"][0]}" height="${DIMS["m-dash-new"][1]}" loading="lazy" decoding="async" data-layer="Dashboard, mobile" data-kind="image"></div>
   </div>
   <div class="q-caps two">
     <p><b>Dashboard, desktop.</b> Two-column widgets beside a fixed sidebar.</p>

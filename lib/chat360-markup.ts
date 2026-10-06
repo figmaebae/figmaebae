@@ -52,7 +52,7 @@ function section(id: string, layer: string, label: string, sans: string, serif: 
   return `<section class="cs-sec cs-wrap" id="${id}" data-layer="${a(layer)}" data-kind="frame" aria-labelledby="${id}-h">
   <p class="fr-label">${GRID}${label}</p>
   ${title(id + "-h", sans, serif)}
-  ${intro ? `<p class="cs-sub">${intro}</p>` : ""}
+  ${intro ? `<p class="cs-sub c3-wide">${intro}</p>` : ""}
   ${body}
 </section>`;
 }
@@ -395,7 +395,7 @@ const REFLECT: { t: string; items: [string, string][] }[] = [
 const hero = `<header class="cs-hero cs-wrap" id="cs-hero" data-layer="Hero" data-kind="frame">
   <p class="fr-label reveal">${GRID}Case study · UI/UX design · B2B SaaS homepage</p>
   <h1 class="cs-h1 reveal"><span class="sel" id="sel" data-cursor="Chat360, said plainly." data-layer="Chat360, said plainly." data-kind="text">Chat360,<br><span class="ti-serif">said plainly.</span>${SEL_CHROME}<span class="dims" id="dims" aria-hidden="true">Hug × Hug</span></span></h1>
-  <p class="about cs-lede reveal" id="cs-lede" data-layer="Summary" data-kind="text">Chat360 sells AI agents that talk to customers on WhatsApp, the web, social and voice. The old homepage listed channels. I redesigned it to <b>show what the product does for a business, and to prove it</b>.</p>
+  <p class="about cs-lede c3-wide reveal" id="cs-lede" data-layer="Summary" data-kind="text">Chat360 sells AI agents that talk to customers on WhatsApp, the web, social and voice. The old homepage listed channels. I redesigned it to <b>show what the product does for a business, and to prove it</b>.</p>
   <ul class="cs-pills reveal" role="list" id="cs-pills" data-layer="Project details" data-kind="frame">
     <li class="cs-pill"><span class="dot" aria-hidden="true"></span>Live at chat360.io</li>
     <li class="cs-pill">Role · UI/UX designer</li>
@@ -488,7 +488,7 @@ const research = section(
   <p class="c3-note"><b>Scope note.</b> No interviews or usability tests were run for this project. I treat these findings as strong signals for design direction, not as proof. The impact data later is what tests them.</p>
 
   ${kh("A", "Heuristic audit: seven points of friction")}
-  <p class="cs-sub">Rated by how directly each one blocked a buyer from understanding the value or taking the next step. Tap a pin on the old page, or pick a finding.</p>
+  <p class="cs-sub c3-wide">Rated by how directly each one blocked a buyer from understanding the value or taking the next step. Tap a pin on the old page, or pick a finding.</p>
   <div class="fr c3-annfr" id="c3-audit" data-cursor="Heuristic audit" data-layer="Heuristic audit" data-kind="frame" data-measure=".fr-body">
     <p class="fr-label">${GRID}The old homepage · 7 findings</p>
     <div class="fr-body">
@@ -531,13 +531,13 @@ const research = section(
   </div>
 
     ${kh("B", "CTA inventory: 13 buttons, 5 labels, no single next step")}
-  <p class="cs-sub">Excluding Login. Eight of the thirteen led away from conversion, to channel and solution pages. The page never decided what it wanted the visitor to do.</p>
+  <p class="cs-sub c3-wide">Excluding Login. Eight of the thirteen led away from conversion, to channel and solution pages. The page never decided what it wanted the visitor to do.</p>
   <div class="c3-cta" id="c3-cta" data-layer="CTA inventory" data-kind="frame">
     ${CTAS.map(([k, b]) => `<div><span class="cs-lab">${k}</span><div class="c3-btnrow">${b}</div></div>`).join("")}
   </div>
 
   ${kh("C", "Content inventory: which buyer questions did each section answer?")}
-  <p class="cs-sub">Most of the page answered “where does it work?” Almost none of it answered “does it work?”</p>
+  <p class="cs-sub c3-wide">Most of the page answered “where does it work?” Almost none of it answered “does it work?”</p>
   <div class="c3-tw" id="c3-inventory" data-layer="Content inventory" data-kind="frame"><table class="c3-mx">
     <thead><tr><th>Old section</th><th>What is it?</th><th>Fits my industry?</th><th>What will it do for me?</th><th>Does it work?</th><th>What next?</th></tr></thead>
     <tbody>
@@ -613,7 +613,7 @@ const directions = section(
     ).join("")}
   </div>
   <h3 class="cs-h3 cs-gap">Three smaller forks inside the chosen direction</h3>
-  <p class="cs-sub">Once the direction was set, three decisions still had more than one reasonable answer.</p>
+  <p class="cs-sub c3-wide">Once the direction was set, three decisions still had more than one reasonable answer.</p>
   ${variantSet({
     id: "c3-forks",
     layer: "Smaller forks",
@@ -734,12 +734,12 @@ const design = section(
     ),
   })}
   <h3 class="cs-h3 cs-gap">Inside Decision 3: seven industries, seven real jobs</h3>
-  <p class="cs-sub">Each card names one job and spells out the agent's steps, like “user calls on WhatsApp, voice AI fetches the bill from the ERP, explains the charges, sends a breakdown.”</p>
+  <p class="cs-sub c3-wide">Each card names one job and spells out the agent's steps, like “user calls on WhatsApp, voice AI fetches the bill from the ERP, explains the charges, sends a breakdown.”</p>
   <div class="c3-ind" id="c3-ind" data-layer="Seven industries" data-kind="frame">
     ${INDUSTRIES.map(([k, v]) => `<div class="cs-card"><span class="cs-lab">${k}</span><b>${v}</b></div>`).join("")}
   </div>
   <h3 class="cs-h3 cs-gap">Inside Decision 4: from claims to evidence</h3>
-  <p class="cs-sub">What a buyer could find on the homepage to answer “does this work for companies like mine?”</p>
+  <p class="cs-sub c3-wide">What a buyer could find on the homepage to answer “does this work for companies like mine?”</p>
   <div class="cs-bento c3-proof" id="c3-proof" data-layer="Claims to evidence" data-kind="frame">
     ${tile("c3-pf-1", "Brands", "Brands", '<div class="c3-pn"><s>300+</s>350+</div><p>brands, filterable by industry</p>', "c3-quarter")}
     ${tile("c3-pf-2", "Case studies", "Case studies", '<div class="c3-pn"><s>0</s>3</div><p>case studies: mCaffeine, JP Infra, Motilal Oswal</p>', "c3-quarter")}
@@ -793,10 +793,11 @@ const final = section(
   "12 · Final design",
   "The shipped",
   "homepage",
-  "The new page, top to bottom. Click any screenshot to enlarge it.",
-  `<div class="c3-gal cs-bleed" id="c3-gal" data-layer="Shipped homepage" data-kind="frame">
-    ${FINAL.map(([f, alt, t, n]) => `<figure class="c3-gfig">${bw(wshot(f, alt, { layer: alt, zoom: "final" }))}<figcaption><b>${t}.</b> ${n}</figcaption></figure>`).join("")}
-  </div>`,
+  "Ten screens of the shipped page, top to bottom, on one board. Click it to enlarge.",
+  `<figure class="c3-board" id="c3-gal" data-layer="Shipped homepage" data-kind="image">
+    <button class="cs-zoom" type="button" data-zoom data-zoom-group="final" data-cursor="Enlarge: Shipped homepage" aria-label="Enlarge the board of shipped homepage screens"><img class="c3-shot" src="${IMG}final-board.webp" alt="The shipped Chat360 homepage: ten screens on one board" width="2400" height="1620" loading="lazy" decoding="async"></button>
+    <figcaption>${FINAL.map(([, , t]) => t).join(" · ")}</figcaption>
+  </figure>`,
 );
 
 const validation = section(
@@ -807,7 +808,7 @@ const validation = section(
   "and what happened",
   "No usability testing was run. Confidence came from three places: checking the design against the buyer questions, checking it against the success criteria, and the business metrics after launch.",
   `<h3 class="cs-h3 cs-gap">Before launch · the same buyer questions, re-asked of the new page</h3>
-  <p class="cs-sub">Running the same content inventory on the final design shows that every question the old page skipped now has a section that answers it.</p>
+  <p class="cs-sub c3-wide">Running the same content inventory on the final design shows that every question the old page skipped now has a section that answers it.</p>
   <div class="c3-tw" id="c3-qa" data-layer="Buyer questions, old and new" data-kind="frame"><table class="c3-mx">
     <thead><tr><th>Buyer question</th><th>Old page</th><th>New page</th></tr></thead>
     <tbody>${QA.map(([q, o, n]) => `<tr><td>${q}</td><td>${o}</td><td>${n}</td></tr>`).join("")}</tbody>
@@ -819,7 +820,7 @@ const validation = section(
     <div><span class="cs-lab">The proof is real</span><p>The case studies, testimonials and logos all come from existing customers, so the evidence section rests on real material, not placeholders.</p></div>
   </div>
   <h3 class="cs-h3 cs-gap">After launch · business metrics moved in the predicted direction</h3>
-  <p class="cs-sub">The primary goal was demo requests; bounce rate was the early signal of whether the top of the page was working.</p>
+  <p class="cs-sub c3-wide">The primary goal was demo requests; bounce rate was the early signal of whether the top of the page was working.</p>
   <div class="cs-feat" id="c3-links" data-layer="Metrics and their causes" data-kind="frame">
     <div class="cs-card cs-fcard c3-link"><span class="cs-lab">Demo bookings</span><div class="c3-mt">+42%</div>
       <ul><li>One demo CTA in nav and hero (Decision 2)</li><li>Case studies and testimonials before the ask (Decision 4)</li><li>Industry use cases that show relevance (Decision 3)</li></ul>

@@ -39,6 +39,11 @@ h1{margin:0;font-size:clamp(3.25rem,12vw,5.5rem);font-weight:500;line-height:1;l
 .role.big-title{margin-top:1.25rem}
 .status{margin:1.75rem 0 0;display:flex;align-items:center;gap:.5rem;font-size:.9375rem;color:var(--muted)}
 .dot{flex:none;width:7px;height:7px;border-radius:50%;background:var(--live)}
+/* the availability dot pulses so it gets noticed: a soft ring grows out of it and fades, over and over */
+.status .dot{position:relative;width:8px;height:8px}
+.status .dot::before{content:"";position:absolute;inset:0;border-radius:50%;background:var(--live);animation:dot-ping 1.8s cubic-bezier(0,0,.2,1) infinite}
+@keyframes dot-ping{0%{transform:scale(1);opacity:.55}75%,100%{transform:scale(3.4);opacity:0}}
+@media (prefers-reduced-motion:reduce){.status .dot::before{animation:none;transform:scale(2.2);opacity:.25}}
 .about{margin:1.25rem 0 0;max-width:32rem;font-size:1.0625rem;line-height:1.7;color:var(--muted)}
 .cta{margin-top:2.75rem}
 

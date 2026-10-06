@@ -1,118 +1,115 @@
 // The three diagrams from the Quorum case study, as inline SVG. Colours come from CSS (see .q-dg in the stylesheet),
 // so they follow light and dark mode. Marker ids are unique across the three.
-export const DG_DEPS = `<svg viewBox="0 0 900 400" role="img" aria-label="Procurement, orders and bookings all change inventory; approvals gate procurement; discounts feed orders; the dashboard only reads.">
+export const DG_DEPS = `<svg viewBox="0 0 1100 512" role="img" aria-label="Procurement stocks inventory in after quality check and inventory sends low-stock alerts back to procurement. Orders reserve then deduct stock, and accepted returns put it back. Bookings share the catalogue. Approvals gate procurement, discounts feed orders, and the dashboard only reads.">
       <defs>
         <marker id="ma" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ah"/></marker>
         <marker id="mb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ah acc"/></marker>
         <marker id="mc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ah mut"/></marker>
       </defs>
       <!-- dashboard reads -->
-      <path class="ln dash" d="M410 70 L190 186" marker-end="url(#mc)"/>
-      <path class="ln dash" d="M450 70 V180" marker-end="url(#mc)"/>
-      <path class="ln dash" d="M490 70 L700 186" marker-end="url(#mc)"/>
-      <text class="lb" x="460" y="132">reads</text>
-      <!-- proc <-> inventory -->
-      <path class="ln acc" d="M225 200 H361" marker-end="url(#mb)"/>
-      <text class="lb acc" x="293" y="192" text-anchor="middle">stock in after QC</text>
-      <path class="ln dash" d="M365 224 H229" marker-end="url(#mc)"/>
-      <text class="lb" x="295" y="242" text-anchor="middle">low stock → raise PR</text>
+      <path class="ln dash" d="M492 100 L236 237" marker-end="url(#mc)"/>
+      <path class="ln dash" d="M539 100 V229" marker-end="url(#mc)"/>
+      <path class="ln dash" d="M588 100 L837 237" marker-end="url(#mc)"/>
+      <text class="lb" x="552" y="176">reads</text>
+      <!-- procurement <-> inventory -->
+      <path class="ln acc" d="M270 255 H431" marker-end="url(#mb)"/>
+      <text class="lb acc" x="352" y="243" text-anchor="middle">stock in after QC</text>
+      <path class="ln dash" d="M437 285 H275" marker-end="url(#mc)"/>
+      <text class="lb" x="353" y="306" text-anchor="middle">low stock → raise PR</text>
       <!-- orders -> inventory -->
-      <path class="ln acc" d="M675 205 H539" marker-end="url(#mb)"/>
-      <text class="lb acc" x="607" y="197" text-anchor="middle">reserve, then deduct</text>
+      <path class="ln acc" d="M808 261 H647" marker-end="url(#mb)"/>
+      <text class="lb acc" x="727" y="248" text-anchor="middle">reserve, then deduct</text>
+      <path class="ln acc" d="M808 285 H647" marker-end="url(#mb)"/>
+      <text class="lb acc" x="750" y="312" text-anchor="middle">accepted return: stock back</text>
       <!-- bookings -> inventory -->
-      <path class="ln acc" d="M690 330 L522 240" marker-end="url(#mb)"/>
-      <text class="lb acc" x="604" y="322" text-anchor="start">service uses products</text>
+      <path class="ln dash" d="M826 411 L631 304" marker-end="url(#mc)"/>
+      <text class="lb" x="716" y="424" text-anchor="middle">shares the catalogue</text>
       <!-- discounts -> orders -->
-      <path class="ln" d="M770 100 V184" marker-end="url(#ma)"/>
-      <text class="lb" x="778" y="146">coupon at checkout</text>
+      <path class="ln" d="M922 136 V231" marker-end="url(#ma)"/>
+      <text class="lb" x="934" y="188">coupon at checkout</text>
       <!-- approvals <-> procurement -->
-      <path class="ln" d="M140 232 V326" marker-end="url(#ma)"/>
-      <path class="ln" d="M162 330 V236" marker-end="url(#ma)"/>
-      <text class="lb" x="132" y="284" text-anchor="end">PO over limit</text>
-      <text class="lb" x="170" y="284">approved</text>
+      <path class="ln" d="M167 295 V404" marker-end="url(#ma)"/>
+      <path class="ln" d="M193 411 V301" marker-end="url(#ma)"/>
+      <text class="lb" x="157" y="358" text-anchor="end">PO over limit</text>
+      <text class="lb" x="205" y="358">approved</text>
       <!-- nodes -->
-      <rect class="nd sys" x="375" y="30" width="150" height="40" rx="9"/><text class="t" x="450" y="55" text-anchor="middle">Dashboard</text>
-      <rect class="nd" x="695" y="60" width="150" height="40" rx="9"/><text class="t" x="770" y="85" text-anchor="middle">Discounts</text>
-      <rect class="nd" x="75" y="188" width="150" height="44" rx="9"/><text class="t" x="150" y="207" text-anchor="middle">Procurement</text><text class="s" x="150" y="222" text-anchor="middle">PR · PO · GRN</text>
-      <rect class="nd hot" x="365" y="182" width="170" height="56" rx="10"/><text class="t" x="450" y="206" text-anchor="middle">Inventory</text><text class="s" x="450" y="222" text-anchor="middle">physical · reserved · available</text>
-      <rect class="nd" x="675" y="188" width="150" height="44" rx="9"/><text class="t" x="750" y="207" text-anchor="middle">Orders</text><text class="s" x="750" y="222" text-anchor="middle">marketplace · B2B · walk-in</text>
-      <rect class="nd" x="75" y="330" width="150" height="44" rx="9"/><text class="t" x="150" y="357" text-anchor="middle">Approvals</text>
-      <rect class="nd" x="675" y="330" width="150" height="44" rx="9"/><text class="t" x="750" y="349" text-anchor="middle">Bookings</text><text class="s" x="750" y="364" text-anchor="middle">staff · rooms · machines</text>
+      <rect class="nd sys" x="449" y="52" width="180" height="48" rx="12"/><text class="t" x="539" y="82" text-anchor="middle">Dashboard</text>
+      <rect class="nd" x="832" y="88" width="180" height="48" rx="12"/><text class="t" x="922" y="118" text-anchor="middle">Discounts</text>
+      <rect class="nd" x="89" y="241" width="181" height="54" rx="12"/><text class="t" x="179" y="264" text-anchor="middle">Procurement</text><text class="s" x="179" y="283" text-anchor="middle">PR · PO · GRN</text>
+      <rect class="nd hot" x="437" y="234" width="204" height="67" rx="13"/><text class="t" x="539" y="262" text-anchor="middle">Inventory</text><text class="s" x="539" y="282" text-anchor="middle">physical · reserved · available</text>
+      <rect class="nd" x="808" y="241" width="180" height="54" rx="12"/><text class="t" x="898" y="264" text-anchor="middle">Orders</text><text class="s" x="898" y="283" text-anchor="middle">marketplace · B2B · walk-in</text>
+      <rect class="nd" x="89" y="411" width="181" height="54" rx="12"/><text class="t" x="179" y="444" text-anchor="middle">Approvals</text>
+      <rect class="nd" x="808" y="411" width="180" height="54" rx="12"/><text class="t" x="898" y="434" text-anchor="middle">Bookings</text><text class="s" x="898" y="453" text-anchor="middle">staff · rooms · machines</text>
     </svg>`;
 
-export const DG_SWIM = `<svg viewBox="0 0 860 880" role="img" aria-label="Swimlane: requester raises a PR; the system checks the limit; an approver approves or rejects; purchasing converts to PO; the system emails the vendor; stores create a GRN and run QC; stock updates with accepted quantity; accounts record the invoice; the system runs a 3-way match.">
+export const DG_SWIM = `<svg viewBox="0 0 969 730" role="img" aria-label="Swimlane across requester, approver, purchasing, stores, accounts and system: the requester raises a PR and submits it; the system either auto-approves it under the rule or sends it to the approver, who approves it or rejects it with a reason; purchasing converts the PR to a PO and sends it by email or WhatsApp; stores create a GRN and run a quality check; stock updates with the accepted quantity; accounts record the invoice; the system checks that PO, GRN and bill match.">
       <defs>
-        <marker id="sa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ah"/></marker>
-        <marker id="sb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ah acc"/></marker>
-        <marker id="sr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ah bad"/></marker>
+        <marker id="sa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ah"/></marker>
+        <marker id="sb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ah acc"/></marker>
+        <marker id="sr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ah bad"/></marker>
       </defs>
-      <rect class="lane" x="20" y="0" width="140" height="880"/><rect class="lane" x="300" y="0" width="140" height="880"/><rect class="lane" x="580" y="0" width="140" height="880"/>
-      <text class="lanetxt" x="90" y="28" text-anchor="middle">REQUESTER</text><text class="lanetxt" x="230" y="28" text-anchor="middle">APPROVER</text><text class="lanetxt" x="370" y="28" text-anchor="middle">PURCHASING</text><text class="lanetxt" x="510" y="28" text-anchor="middle">STORES</text><text class="lanetxt" x="650" y="28" text-anchor="middle">ACCOUNTS</text><text class="lanetxt" x="790" y="28" text-anchor="middle">SYSTEM</text>
+      <rect class="lane" x="16" y="10" width="156.2" height="710"/><rect class="lane" x="328.3" y="10" width="156.2" height="710"/><rect class="lane" x="640.7" y="10" width="156.2" height="710"/>
+      <text class="lanetxt" x="94.1" y="34" text-anchor="middle">REQUESTER</text><text class="lanetxt" x="250.3" y="34" text-anchor="middle">APPROVER</text><text class="lanetxt" x="406.4" y="34" text-anchor="middle">PURCHASING</text><text class="lanetxt" x="562.6" y="34" text-anchor="middle">STORES</text><text class="lanetxt" x="718.8" y="34" text-anchor="middle">ACCOUNTS</text><text class="lanetxt" x="874.9" y="34" text-anchor="middle">SYSTEM</text>
       <!-- edges -->
-      <path class="ln" d="M150 90 H790 V136" marker-end="url(#sa)"/><text class="lb" x="470" y="82" text-anchor="middle">submit</text>
-      <path class="ln" d="M734 170 H230 V216" marker-end="url(#sa)"/><text class="lb" x="480" y="162" text-anchor="middle">over limit</text>
-      <path class="ln acc" d="M790 200 V300 H370 V313" marker-end="url(#sb)"/><text class="lb acc" x="580" y="292" text-anchor="middle">under limit: auto-approved</text>
-      <path class="ln acc" d="M230 280 V340 H306" marker-end="url(#sb)"/><text class="lb acc" x="238" y="330">approve</text>
-      <path class="ln bad" d="M174 250 H90 V117" marker-end="url(#sr)"/><text class="lb bad" x="98" y="200">reject +</text><text class="lb bad" x="98" y="214">reason</text>
-      <path class="ln" d="M430 340 H790 V393" marker-end="url(#sa)"/><text class="lb" x="610" y="332" text-anchor="middle">create &amp; send</text>
-      <path class="ln" d="M790 443 V500 H574" marker-end="url(#sa)"/><text class="lb" x="680" y="492" text-anchor="middle">goods arrive</text>
-      <path class="ln" d="M510 523 V556" marker-end="url(#sa)"/>
-      <path class="ln" d="M566 590 H790 V643" marker-end="url(#sa)"/><text class="lb" x="680" y="582" text-anchor="middle">QC result</text>
-      <path class="ln" d="M790 693 V750 H714" marker-end="url(#sa)"/>
-      <path class="ln acc" d="M650 773 V830 H726" marker-end="url(#sb)"/><text class="lb acc" x="658" y="812">bill</text>
+      <path class="ln" d="M161.1 80 H874.9 V110" marker-end="url(#sa)"/><text class="lb" x="484.5" y="72" text-anchor="middle">submit</text>
+      <path class="ln" d="M806.9 142 H250.3 V174" marker-end="url(#sa)"/><text class="lb" x="562.6" y="134" text-anchor="middle">needs approval</text>
+      <path class="ln bad" d="M182.3 210 H94.1 V105" marker-end="url(#sr)"/><text class="lb bad" x="102.1" y="164">reject +</text><text class="lb bad" x="102.1" y="178">reason</text>
+      <path class="ln acc" d="M250.3 239 V298 H336.4" marker-end="url(#sb)"/><text class="lb acc" x="260.3" y="290">approve</text>
+      <path class="ln acc" d="M874.9 171 V256 H406.4 V274" marker-end="url(#sb)"/><text class="lb acc" x="640.65" y="248" text-anchor="middle">rule met: auto-approved</text>
+      <path class="ln" d="M406.4 319 V332" marker-end="url(#sa)"/>
+      <path class="ln" d="M473.4 354 H562.6 V398" marker-end="url(#sa)"/><text class="lb" x="479.4" y="346">goods arrive</text>
+      <path class="ln" d="M562.6 441 V459" marker-end="url(#sa)"/>
+      <path class="ln" d="M629.6 486 H874.9 V532" marker-end="url(#sa)"/><text class="lb" x="752.25" y="478" text-anchor="middle">inspection done</text>
+      <path class="ln" d="M874.9 573 V625 H788.8" marker-end="url(#sa)"/>
+      <path class="ln acc" d="M718.8 646 V694 H804.9" marker-end="url(#sb)"/><text class="lb acc" x="727.8" y="684">bill</text>
       <!-- nodes -->
-      <rect class="nd" x="30" y="67" width="120" height="46" rx="8"/><text class="t" x="90" y="87" text-anchor="middle">Raise PR</text><text class="s" x="90" y="103" text-anchor="middle">items, qty, date</text>
-      <polygon class="dia" points="734,170 790,140 846,170 790,200"/><text class="t" x="790" y="174" text-anchor="middle">Over limit?</text>
-      <polygon class="dia" points="174,250 230,220 286,250 230,280"/><text class="t" x="230" y="254" text-anchor="middle">Approve?</text>
-      <rect class="nd" x="310" y="317" width="120" height="46" rx="8"/><text class="t" x="370" y="337" text-anchor="middle">Convert to PO</text><text class="s" x="370" y="353" text-anchor="middle">PR fields carried</text>
-      <rect class="nd sys" x="730" y="397" width="120" height="46" rx="8"/><text class="t" x="790" y="417" text-anchor="middle">PO emailed</text><text class="s" x="790" y="433" text-anchor="middle">PR closed</text>
-      <rect class="nd" x="450" y="477" width="120" height="46" rx="8"/><text class="t" x="510" y="497" text-anchor="middle">Create GRN</text><text class="s" x="510" y="513" text-anchor="middle">received qty</text>
-      <polygon class="dia" points="454,590 510,560 566,590 510,620"/><text class="t" x="510" y="594" text-anchor="middle">QC pass?</text>
-      <rect class="nd sys" x="730" y="647" width="120" height="46" rx="8"/><text class="t" x="790" y="667" text-anchor="middle">Stock updated</text><text class="s" x="790" y="683" text-anchor="middle">accepted qty only</text>
-      <rect class="nd" x="590" y="727" width="120" height="46" rx="8"/><text class="t" x="650" y="747" text-anchor="middle">Record invoice</text><text class="s" x="650" y="763" text-anchor="middle">upload the bill</text>
-      <rect class="nd hot" x="730" y="807" width="120" height="46" rx="8"/><text class="t" x="790" y="827" text-anchor="middle">3-way match</text><text class="s" x="790" y="843" text-anchor="middle">PO = GRN = bill</text>
-      <!-- badges -->
-      <circle class="badge" cx="30" cy="67" r="10"/><text class="bt" x="30" y="71" text-anchor="middle">1</text>
-      <circle class="badge" cx="196" cy="230" r="10"/><text class="bt" x="196" y="234" text-anchor="middle">2</text>
-      <circle class="badge" cx="310" cy="317" r="10"/><text class="bt" x="310" y="321" text-anchor="middle">3</text>
-      <circle class="badge" cx="450" cy="477" r="10"/><text class="bt" x="450" y="481" text-anchor="middle">4</text>
-      <circle class="badge" cx="476" cy="570" r="10"/><text class="bt" x="476" y="574" text-anchor="middle">5</text>
-      <circle class="badge" cx="590" cy="727" r="10"/><text class="bt" x="590" y="731" text-anchor="middle">6</text>
+      <rect class="nd" x="27.1" y="59" width="134" height="42" rx="8"/><text class="t" x="94.1" y="76" text-anchor="middle">Raise PR</text><text class="s" x="94.1" y="91" text-anchor="middle">items, qty, date</text>
+      <polygon class="dia" points="806.9,142 874.9,113 942.9,142 874.9,171"/><text class="t" x="874.9" y="146" text-anchor="middle">Auto-approve?</text>
+      <polygon class="dia" points="182.3,210 250.3,181 318.3,210 250.3,239"/><text class="t" x="250.3" y="214" text-anchor="middle">Approve?</text>
+      <rect class="nd" x="339.4" y="277" width="134" height="42" rx="8"/><text class="t" x="406.4" y="294" text-anchor="middle">Convert to PO</text><text class="s" x="406.4" y="309" text-anchor="middle">PR fields carried</text>
+      <rect class="nd" x="339.4" y="333" width="134" height="42" rx="8"/><text class="t" x="406.4" y="350" text-anchor="middle">Send PO</text><text class="s" x="406.4" y="365" text-anchor="middle">email or WhatsApp</text>
+      <rect class="nd" x="495.6" y="399" width="134" height="42" rx="8"/><text class="t" x="562.6" y="416" text-anchor="middle">Create GRN</text><text class="s" x="562.6" y="431" text-anchor="middle">received qty</text>
+      <rect class="nd" x="495.6" y="465" width="134" height="42" rx="8"/><text class="t" x="562.6" y="482" text-anchor="middle">Quality check</text><text class="s" x="562.6" y="497" text-anchor="middle">approve or reject</text>
+      <rect class="nd sys" x="807.9" y="532" width="134" height="42" rx="8"/><text class="t" x="874.9" y="549" text-anchor="middle">Stock updated</text><text class="s" x="874.9" y="564" text-anchor="middle">accepted qty only</text>
+      <rect class="nd" x="651.8" y="604" width="134" height="42" rx="8"/><text class="t" x="718.8" y="621" text-anchor="middle">Record invoice</text><text class="s" x="718.8" y="636" text-anchor="middle">upload or key in</text>
+      <rect class="nd hot" x="807.9" y="673" width="134" height="42" rx="8"/><text class="t" x="874.9" y="690" text-anchor="middle">3-way match</text><text class="s" x="874.9" y="705" text-anchor="middle">PO = GRN = bill</text>
+      <!-- step numbers -->
+      <circle class="nb" cx="29.099999999999994" cy="59" r="9"/><text class="nt" x="29.099999999999994" y="62.5" text-anchor="middle">1</text><circle class="nb" cx="214.3" cy="184" r="9"/><text class="nt" x="214.3" y="187.5" text-anchor="middle">2</text><circle class="nb" cx="341.4" cy="277" r="9"/><text class="nt" x="341.4" y="280.5" text-anchor="middle">3</text><circle class="nb" cx="497.6" cy="399" r="9"/><text class="nt" x="497.6" y="402.5" text-anchor="middle">4</text><circle class="nb" cx="497.6" cy="465" r="9"/><text class="nt" x="497.6" y="468.5" text-anchor="middle">5</text><circle class="nb" cx="653.8" cy="604" r="9"/><text class="nt" x="653.8" y="607.5" text-anchor="middle">6</text>
     </svg>`;
 
-export const DG_ROUTE = `<svg viewBox="0 0 1000 440" role="img" aria-label="Decision tree: trial signups go through account, six questions and optional setup to the dashboard; buyers pay, then the system checks whether the email exists, sending new users into setup and returning users straight to their old dashboard; logins check whether the user has more than one entity.">
+export const DG_ROUTE = `<svg viewBox="0 0 1000 452" role="img" aria-label="Decision tree with three entry points and five landing spots. Website: start free trial, create account with work email and password, answer six required questions, optional module setup, then the dashboard with widgets set by industry and role. Pricing page: buy a plan, pay at checkout, then the system checks whether the email is known; if not, the user answers the six questions, if yes the wizard is skipped, the plan is reactivated and they land on their old dashboard with a welcome-back toast. Login: email and password, then the system checks whether the user has more than one entity; if not they go straight to the entity dashboard, if yes they pick an entity, and owners and admins can also open a consolidated view.">
       <defs>
-        <marker id="ra" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ah"/></marker>
-        <marker id="rb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ah acc"/></marker>
+        <marker id="ra" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ah"/></marker>
+        <marker id="rb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ah acc"/></marker>
+        <marker id="rc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ah mut"/></marker>
       </defs>
-      <text class="lanetxt" x="100" y="22" text-anchor="middle">ENTRY</text><text class="lanetxt" x="890" y="22" text-anchor="middle">LANDS ON</text>
+      <text class="colt" x="110.4" y="33.8" text-anchor="middle">ENTRY</text><text class="colt" x="878.6" y="33.8" text-anchor="middle">LANDS ON</text>
       <!-- edges -->
-      <path class="ln" d="M175 70 H221" marker-end="url(#ra)"/><path class="ln" d="M375 70 H421" marker-end="url(#ra)"/><path class="ln" d="M575 70 H621" marker-end="url(#ra)"/><path class="ln" d="M775 70 H796" marker-end="url(#ra)"/>
-      <path class="ln" d="M175 190 H221" marker-end="url(#ra)"/><path class="ln" d="M375 190 H436" marker-end="url(#ra)"/>
-      <path class="ln" d="M500 160 V96" marker-end="url(#ra)"/><text class="lb" x="508" y="132">no: set password</text>
-      <path class="ln acc" d="M560 190 H621" marker-end="url(#rb)"/><text class="lb acc" x="568" y="182">yes</text>
-      <path class="ln acc" d="M775 190 H796" marker-end="url(#rb)"/>
-      <path class="ln" d="M175 330 H236" marker-end="url(#ra)"/>
-      <path class="ln" d="M360 330 H421" marker-end="url(#ra)"/><text class="lb" x="368" y="322">yes</text>
-      <path class="ln" d="M575 330 H796" marker-end="url(#ra)"/>
-      <path class="ln" d="M300 360 V400 H796" marker-end="url(#ra)"/><text class="lb" x="308" y="388">no</text>
-      <!-- entries -->
-      <rect class="nd hot" x="25" y="48" width="150" height="44" rx="9"/><text class="t" x="100" y="67" text-anchor="middle">Website</text><text class="s" x="100" y="82" text-anchor="middle">start free trial</text>
-      <rect class="nd hot" x="25" y="168" width="150" height="44" rx="9"/><text class="t" x="100" y="187" text-anchor="middle">Pricing page</text><text class="s" x="100" y="202" text-anchor="middle">buy a plan</text>
-      <rect class="nd hot" x="25" y="308" width="150" height="44" rx="9"/><text class="t" x="100" y="327" text-anchor="middle">Login</text><text class="s" x="100" y="342" text-anchor="middle">email + password</text>
-      <!-- trial row -->
-      <rect class="nd" x="225" y="48" width="150" height="44" rx="9"/><text class="t" x="300" y="67" text-anchor="middle">Create account</text><text class="s" x="300" y="82" text-anchor="middle">work email</text>
-      <rect class="nd" x="425" y="48" width="150" height="44" rx="9"/><text class="t" x="500" y="67" text-anchor="middle">6 required questions</text><text class="s" x="500" y="82" text-anchor="middle">org, industry, role…</text>
-      <rect class="nd" x="625" y="48" width="150" height="44" rx="9"/><text class="t" x="700" y="67" text-anchor="middle">Module setup</text><text class="s" x="700" y="82" text-anchor="middle">optional, skippable</text>
-      <rect class="nd end" x="800" y="48" width="180" height="44" rx="9"/><text class="te" x="890" y="67" text-anchor="middle">Dashboard</text><text class="se" x="890" y="82" text-anchor="middle">widgets set by industry, role</text>
-      <!-- pricing row -->
-      <rect class="nd sys" x="225" y="168" width="150" height="44" rx="9"/><text class="t" x="300" y="187" text-anchor="middle">Payment</text><text class="s" x="300" y="202" text-anchor="middle">checkout</text>
-      <polygon class="dia" points="440,190 500,160 560,190 500,220"/><text class="t" x="500" y="194" text-anchor="middle" style="font-size:10.5px">Email known?</text>
-      <rect class="nd sys" x="625" y="168" width="150" height="44" rx="9"/><text class="t" x="700" y="187" text-anchor="middle">Skip the wizard</text><text class="s" x="700" y="202" text-anchor="middle">plan reactivated</text>
-      <rect class="nd end" x="800" y="168" width="180" height="44" rx="9"/><text class="te" x="890" y="187" text-anchor="middle">Their old dashboard</text><text class="se" x="890" y="202" text-anchor="middle">“Welcome back” toast</text>
-      <!-- login row -->
-      <polygon class="dia" points="240,330 300,300 360,330 300,360"/><text class="t" x="300" y="334" text-anchor="middle" style="font-size:10.5px">Entities &gt; 1?</text>
-      <rect class="nd" x="425" y="308" width="150" height="44" rx="9"/><text class="t" x="500" y="327" text-anchor="middle">Entity picker</text><text class="s" x="500" y="342" text-anchor="middle">status, role per entity</text>
-      <rect class="nd end" x="800" y="308" width="180" height="44" rx="9"/><text class="te" x="890" y="327" text-anchor="middle">Consolidated view</text><text class="se" x="890" y="342" text-anchor="middle">switch from the top bar</text>
-      <rect class="nd end" x="800" y="378" width="180" height="44" rx="9"/><text class="te" x="890" y="397" text-anchor="middle">Entity dashboard</text><text class="se" x="890" y="412" text-anchor="middle">straight in</text>
+      <path class="ln" d="M184.4 81.8 H227.3" marker-end="url(#ra)"/><path class="ln" d="M377.9 81.8 H422.1" marker-end="url(#ra)"/><path class="ln" d="M572.7 81.8 H616.9" marker-end="url(#ra)"/><path class="ln" d="M766.9 81.8 H786.4" marker-end="url(#ra)"/>
+      <path class="ln" d="M500 169.5 V107.8" marker-end="url(#ra)"/><text class="lb" x="507.8" y="142.2">no: set password</text>
+      <path class="ln" d="M184.4 198.1 H227.3" marker-end="url(#ra)"/><path class="ln" d="M377.9 198.1 H437" marker-end="url(#ra)"/>
+      <path class="ln acc" d="M558.4 198.1 H616.9" marker-end="url(#rb)"/><text class="lb acc" x="566.2" y="190.9">yes</text>
+      <path class="ln acc" d="M766.9 198.1 H786.4" marker-end="url(#rb)"/>
+      <path class="ln" d="M184.4 334.4 H242.9" marker-end="url(#ra)"/><path class="ln" d="M363.6 334.4 H422.1" marker-end="url(#ra)"/><text class="lb" x="371.4" y="326">yes</text>
+      <path class="ln" d="M572.7 334.4 H786.4" marker-end="url(#ra)"/><text class="lb" x="654.5" y="326" text-anchor="middle">pick an entity</text>
+      <path class="ln" d="M305.2 305.8 V289.6 H762.3 V320.1 H786.4" marker-end="url(#ra)"/><text class="lb" x="313" y="283.1">no: single entity</text>
+      <path class="ln dash" d="M500 356.5 V402.6 H786.4" marker-end="url(#rc)"/><text class="lb" x="507.8" y="394.2">owners, admins</text>
+      <!-- entry points -->
+      <rect class="nd hot" x="37.7" y="59.7" width="146.8" height="43.5" rx="9"/><text class="t" x="111" y="77.6" text-anchor="middle">Website</text><text class="s" x="111" y="89.9" text-anchor="middle">start free trial</text>
+      <rect class="nd hot" x="37.7" y="176.6" width="146.8" height="43.5" rx="9"/><text class="t" x="111" y="194.5" text-anchor="middle">Pricing page</text><text class="s" x="111" y="206.8" text-anchor="middle">buy a plan</text>
+      <rect class="nd hot" x="37.7" y="313" width="146.8" height="43.5" rx="9"/><text class="t" x="111" y="330.8" text-anchor="middle">Login</text><text class="s" x="111" y="343.2" text-anchor="middle">email + password</text>
+      <!-- steps and checks -->
+      <rect class="nd" x="232.5" y="59.7" width="145.5" height="43.5" rx="9"/><text class="t" x="305.2" y="77.6" text-anchor="middle">Create account</text><text class="s" x="305.2" y="89.9" text-anchor="middle">work email + password</text>
+      <rect class="nd" x="426.6" y="59.7" width="146.1" height="43.5" rx="9"/><text class="t" x="499.7" y="77.6" text-anchor="middle">6 required questions</text><text class="s" x="499.7" y="89.9" text-anchor="middle">org, industry, role…</text>
+      <rect class="nd" x="621.4" y="59.7" width="145.5" height="43.5" rx="9"/><text class="t" x="694.2" y="77.6" text-anchor="middle">Module setup</text><text class="s" x="694.2" y="89.9" text-anchor="middle">optional, skippable</text>
+      <rect class="nd" x="232.5" y="176.6" width="145.5" height="43.5" rx="9"/><text class="t" x="305.2" y="194.5" text-anchor="middle">Payment</text><text class="s" x="305.2" y="206.8" text-anchor="middle">checkout</text>
+      <polygon class="dia" points="441.6,198.7 500,169.5 558.4,198.7 500,227.9"/><text class="t dl" x="500" y="202.7" text-anchor="middle">Email known?</text>
+      <rect class="nd sys" x="621.4" y="176.6" width="145.5" height="43.5" rx="9"/><text class="t" x="694.2" y="194.5" text-anchor="middle">Skip the wizard</text><text class="s" x="694.2" y="206.8" text-anchor="middle">plan reactivated</text>
+      <polygon class="dia" points="246.8,335.1 305.2,305.8 363.6,335.1 305.2,364.3"/><text class="t dl" x="305.2" y="339.1" text-anchor="middle">Entities &gt; 1?</text>
+      <rect class="nd" x="426.6" y="313" width="146.1" height="43.5" rx="9"/><text class="t" x="499.7" y="330.8" text-anchor="middle">Entity picker</text><text class="s" x="499.7" y="343.2" text-anchor="middle">status, role per entity</text>
+      <!-- landing spots -->
+      <rect class="nd land" x="790.9" y="59.7" width="176" height="43.5" rx="9"/><text class="t" x="878.9" y="77.6" text-anchor="middle">Dashboard</text><text class="s acc" x="878.9" y="89.9" text-anchor="middle">widgets set by industry, role</text>
+      <rect class="nd land" x="790.9" y="176.6" width="176" height="43.5" rx="9"/><text class="t" x="878.9" y="194.5" text-anchor="middle">Their old dashboard</text><text class="s" x="878.9" y="206.8" text-anchor="middle">“Welcome back” toast</text>
+      <rect class="nd land" x="790.9" y="313" width="176" height="43.5" rx="9"/><text class="t" x="878.9" y="330.8" text-anchor="middle">Entity dashboard</text><text class="s" x="878.9" y="343.2" text-anchor="middle">picked, or straight in</text>
+      <rect class="nd land" x="790.9" y="381.2" width="176" height="42.9" rx="9"/><text class="t" x="878.9" y="398.7" text-anchor="middle">Consolidated view</text><text class="s" x="878.9" y="411" text-anchor="middle">owners and admins only</text>
     </svg>`;
