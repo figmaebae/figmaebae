@@ -154,6 +154,78 @@ h1{margin:0;font-size:clamp(3.25rem,12vw,5.5rem);font-weight:500;line-height:1;l
   .fr-date{order:3;width:100%;padding-left:3.625rem;margin-top:-.25rem}
 }
 
+/* Case studies: two frames side by side, each one opens its own page. The grid is wider than the text column,
+   but never runs under the Layers / Design panels when they're open. */
+.cases{--cc-pad:1.5rem;--cc-w:62rem;padding-top:2rem;padding-bottom:6rem}
+@media (min-width:1200px) and (hover:hover) and (pointer:fine){
+  .cases{--cc-pad:calc(248px + 1rem)}
+  html[data-inspect="off"] .cases{--cc-pad:1.5rem}
+}
+@media (max-width:860px){.cases{--cc-w:36rem}}
+.cc-head,.cc-grid{width:min(calc(100vw - 2*var(--cc-pad)),var(--cc-w));margin-inline:auto}
+.cc-grid{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;margin-top:3.5rem;padding:0}
+@media (max-width:860px){.cc-grid{grid-template-columns:minmax(0,1fr)}}
+.cc-grid>.fr{display:flex;flex-direction:column;min-width:0}
+.cc-grid>.fr .fr-body{flex:1}
+.fr-body.cc{display:flex;flex-direction:column;gap:1rem;padding:.75rem .75rem 1.25rem}
+.cc-media{position:relative;flex:none;aspect-ratio:16/10;overflow:hidden;border-radius:10px;container-type:inline-size;background:var(--field)}
+.cc-bex{background:linear-gradient(160deg,color-mix(in srgb,#ffc700 24%,var(--field)),color-mix(in srgb,#e58fc2 22%,var(--field)))}
+.cc-quorum{background:linear-gradient(160deg,color-mix(in srgb,#019f93 22%,var(--field)),color-mix(in srgb,#0f172b 12%,var(--field)))}
+.cc-chat{background:linear-gradient(160deg,color-mix(in srgb,#1a5eed 16%,var(--field)),color-mix(in srgb,#b077dc 14%,var(--field)))}
+/* the pointer's position over the card (0 to 1) drives the previews: --p across, --q down. A soft light follows it. */
+.cc-media::after{content:"";position:absolute;inset:0;z-index:3;border-radius:inherit;background:radial-gradient(11rem circle at calc(var(--p,.5)*100%) calc(var(--q,.5)*100%),rgba(255,255,255,.4),transparent 70%);mix-blend-mode:soft-light;opacity:0;pointer-events:none;transition:opacity .25s}
+.cc-media.pt::after{opacity:1}
+/* BexCard: three screens, tilted and spread by the pointer */
+.cc-fan{position:absolute;inset:0;transform:perspective(800px) rotateY(calc((var(--p,.5) - .5)*18deg)) rotateX(calc((var(--q,.5) - .5)*-10deg));transition:transform .25s ease-out}
+.cc-fan img{position:absolute;left:50%;bottom:-24%;width:31cqw;height:auto;border:1px solid var(--hair-2);border-radius:clamp(8px,3cqw,14px);background:var(--surface);box-shadow:0 14px 28px -16px rgba(0,0,0,.45);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.cc-fan img:nth-child(1){transform:translateX(calc(-132% - (var(--p,.5) - .5)*14%)) rotate(-8deg) translateY(4%)}
+.cc-fan img:nth-child(2){transform:translateX(-50%) translateY(-2%)}
+.cc-fan img:nth-child(3){transform:translateX(calc(32% - (var(--p,.5) - .5)*14%)) rotate(8deg) translateY(4%)}
+.fr:hover .cc-fan img:nth-child(1){transform:translateX(calc(-140% - (var(--p,.5) - .5)*14%)) rotate(-11deg) translateY(0)}
+.fr:hover .cc-fan img:nth-child(2){transform:translateX(-50%) translateY(-7%)}
+.fr:hover .cc-fan img:nth-child(3){transform:translateX(calc(40% - (var(--p,.5) - .5)*14%)) rotate(11deg) translateY(0)}
+/* Chat360: the old homepage with the new one wiped over it. Drifts on its own until the pointer takes over. */
+.cc-cmp{position:absolute;inset:0}
+.cc-cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 0}
+.cc-new{clip-path:inset(0 0 0 calc(var(--p,.5)*100%))}
+.cc-handle{position:absolute;top:0;bottom:0;left:calc(var(--p,.5)*100%);z-index:2;width:2px;margin-left:-1px;background:var(--sel);pointer-events:none}
+.cc-handle::after{content:"↔";position:absolute;top:50%;left:50%;display:grid;place-items:center;width:1.7rem;height:1.7rem;margin:-.85rem 0 0 -.85rem;border-radius:50%;background:var(--sel);color:#fff;font-size:.8rem;box-shadow:0 4px 12px -3px rgba(13,153,255,.7)}
+.cc-chat:not(.pt) .cc-new{animation:cc-wipe 7s ease-in-out infinite alternate}
+.cc-chat:not(.pt) .cc-handle{animation:cc-wipe-h 7s ease-in-out infinite alternate}
+@keyframes cc-wipe{from{clip-path:inset(0 0 0 22%)}to{clip-path:inset(0 0 0 78%)}}
+@keyframes cc-wipe-h{from{left:22%}to{left:78%}}
+.cc-tag{left:auto;right:.5rem}
+.cc-tag:not(.cc-tag-new){left:.5rem;right:auto}
+/* Quorum: a strip of four screens; the pointer's position picks one, and it steps through them while nobody is pointing */
+.cc-strip{position:absolute;top:0;bottom:0;left:0;display:flex;width:400%;transform:translateX(calc(var(--i,0)*-25%));transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+.cc-strip img{display:block;flex:none;width:25%;height:100%;object-fit:cover;object-position:left top}
+.cc-cap{position:absolute;left:.5rem;bottom:.5rem;z-index:2;padding:.3em .65em;border-radius:999px;background:var(--ink);color:var(--paper);font:600 .625rem/1 var(--font);letter-spacing:.04em;text-transform:uppercase}
+.cc-dots{position:absolute;right:.6rem;bottom:.6rem;z-index:2;display:flex;gap:.3rem}
+.cc-dots i{width:.4rem;height:.4rem;border-radius:50%;background:color-mix(in srgb,var(--ink) 30%,transparent);transition:width .25s,background-color .25s}
+.cc-dots i.on{width:1.1rem;border-radius:999px;background:var(--ink)}
+.cc-tag{position:absolute;top:.5rem;z-index:2;padding:.3em .6em;border-radius:999px;background:var(--ink);color:var(--paper);font:600 .625rem/1 var(--font);letter-spacing:.04em;text-transform:uppercase}
+.cc-tag-new{background:var(--sel);color:#fff}
+.cc-text{display:flex;flex:1;flex-direction:column;gap:.75rem;padding:.25rem .5rem 0}
+.cc-meta{display:flex;align-items:center;gap:.75rem}
+.cc-meta .logo{width:2.25rem;height:2.25rem}
+.cc-who{display:flex;flex-direction:column;min-width:0}
+.cc-co{margin:0;font-size:.9375rem;font-weight:500;letter-spacing:-.01em;line-height:1.3;color:var(--ink)}
+.cc-role{font-size:.75rem;line-height:1.35;color:var(--muted)}
+.cc-desc{margin:0;font-size:.9375rem;line-height:1.6;color:var(--muted)}
+.cc-stats{display:flex;flex-wrap:wrap;gap:.4rem;margin:.25rem 0 0;padding:0;list-style:none}
+.cc-stats li{padding:.4em .75em;border:1px solid var(--hair-2);border-radius:999px;font-size:.75rem;line-height:1.2;color:var(--muted);white-space:nowrap}
+.cc-stats b{font-weight:600;color:var(--ink)}
+.cc-cta{display:inline-flex;align-items:center;gap:.5rem;margin-top:auto;padding-top:.75rem;font-size:.875rem;font-weight:500;color:var(--ink);transition:color .15s}
+.cc-go{display:grid;place-items:center;width:1.5rem;height:1.5rem;border-radius:50%;background:var(--ink);color:var(--paper);transition:transform .2s cubic-bezier(.3,1.5,.4,1),background-color .15s}
+.fr:hover .cc-cta{color:var(--sel)}
+.fr:hover .cc-go{background:var(--sel);color:#fff;transform:translate(2px,-2px)}
+/* chips lift a little in turn when the card is pointed at */
+.cc-stats li{transition:transform .25s cubic-bezier(.2,.8,.2,1),border-color .15s,color .15s}
+.fr:hover .cc-stats li{transform:translateY(-2px);border-color:color-mix(in srgb,var(--sel) 45%,var(--hair-2))}
+.fr:hover .cc-stats li:nth-child(2){transition-delay:.05s}
+.fr:hover .cc-stats li:nth-child(3){transition-delay:.1s}
+@media (prefers-reduced-motion:reduce){.cc-fan,.cc-fan img,.cc-go,.cc-strip,.cc-dots i,.cc-stats li{transition:none}.cc-chat:not(.pt) .cc-new,.cc-chat:not(.pt) .cc-handle{animation:none}}
+
 /* Consequence as a Figma component set inside the WASP frame */
 .cset{margin-top:1.5rem;--comp:#9747ff}
 .cset-label{display:flex;align-items:center;gap:6px;margin:0 0 8px;font-size:12px;line-height:1;color:var(--comp);font-weight:500}

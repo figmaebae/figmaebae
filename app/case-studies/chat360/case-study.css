@@ -12,6 +12,8 @@
 .c3-bar i{width:.55rem;height:.55rem;border-radius:50%;background:var(--hair-2);filter:brightness(.9)}
 .c3-bar span{margin-left:.5rem;padding:.15rem .7rem;border:1px solid var(--hair-2);border-radius:999px;background:var(--surface);font:500 .6875rem/1.3 var(--font);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .c3-bw .cs-zoom{border-radius:0}
+/* screens sit flush inside clipped frames, so the hover outline is drawn just inside them instead of being cut off */
+.c3-bw [data-layer].is-hl,.c3-crop [data-layer].is-hl,.c3-cmp [data-layer].is-hl{outline-offset:-2px}
 .c3-crop{overflow:hidden;border-radius:10px;aspect-ratio:16/8;background:var(--field)}
 .c3-crop .cs-zoom{height:100%;border-radius:0}
 .c3-crop .c3-shot{width:100%;height:100%;object-fit:cover;transition:transform .4s cubic-bezier(.2,.7,.2,1)}

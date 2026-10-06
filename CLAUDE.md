@@ -19,7 +19,7 @@ Each case study is its own route under `app/case-studies/<slug>/` and reuses the
 - `page.tsx` (metadata + JSON-LD), `case-study.css` (layout + widgets, all prefixed `cs-`), `opengraph-image.tsx` (share image)
 - `lib/<slug>-markup.ts` builds the HTML (sections, Layers rows; ids are checked at load) and `lib/<slug>.js` holds the page's own interactions
 - images live in `public/case-studies/<slug>/`
-- BexCard is the first one (`lib/bexcard-markup.ts`, `lib/bexcard.js`) and owns the shared `cs-` layout/widgets in its `case-study.css`. Chat360 (`lib/chat360-markup.ts`, `lib/chat360.js`, `app/case-studies/chat360/`) imports that stylesheet and adds its own `c3-` styles; its `initChat360()` calls `initBexCard()` for the shared reveal/tabs/viewer behaviour. To add another, copy the Chat360 set, add the route to `app/sitemap.ts`, and link it from the work-experience card the way BexCard/Chat360 are (a `.fr-case` overlay link + `.sticky-case` note + `data-return="<card id>"`).
+- BexCard is the first one (`lib/bexcard-markup.ts`, `lib/bexcard.js`) and owns the shared `cs-` layout/widgets in its `case-study.css`. Chat360 (`lib/chat360-markup.ts`, `lib/chat360.js`, `app/case-studies/chat360/`) imports that stylesheet and adds its own `c3-` styles; its `initChat360()` calls `initBexCard()` for the shared reveal/tabs/viewer behaviour. Quorum (`lib/quorum-markup.ts`, `lib/quorum-diagrams.ts` for its three SVG diagrams, `lib/quorum.js`, `app/case-studies/quorum/`) imports both of those stylesheets and adds `q-` styles, so the stylesheets chain bexcard (`cs-`) → chat360 (`c3-`) → quorum (`q-`). To add another, copy the Chat360 set, add the route to `app/sitemap.ts`, and add a card for it in the home page's "Case studies" section (`#cases`, right after the hero) the way BexCard/Chat360 are: a `.fr` frame with a `.fr-case` overlay link and `data-return="<card id>"`, a `.cc-media` preview, role/dates, title and result chips, plus a Layers row.
 - Case-study pages open with Inspect closed (an inline script in `page.tsx` sets `data-inspect="off"` before first paint); the toggle still opens the panels.
 - Coming back from a case study skips the opening animation and lands on the card that was opened (`yp-return` in sessionStorage, read once in `lib/intro.js`).
 
@@ -41,7 +41,8 @@ Each case study is its own route under `app/case-studies/<slug>/` and reuses the
 - Email: figmaebae@gmail.com (press C to copy)
 - LinkedIn, Twitter/X, Medium links: `LINKS` object in `lib/canvas.js`
 - Resume: `public/resume.pdf`, linked through `LINKS.resume` in `lib/canvas.js` (opens in a new tab)
-- Experience: WASP (current, works on Consequence), BexCard, Chat360, Mimothi Solutions (intern)
+- Home page order: Hero, Case studies (BexCard, Chat360, Quorum), Experience (WASP, Mimothi Solutions), Beyond the 9-to-5, Testimonials, Skills, Writing, Stack, Off the grid (gallery), Footer (contact). The Layers panel rows follow the same order.
+- Experience: WASP (current, works on Consequence), BexCard, Chat360, Mimothi Solutions (intern). BexCard and Chat360 appear both under Work experience (plain job cards, ids `fr-exp-*`) and as case-study cards in the Case studies section (ids `fr-bexcard`, `fr-chat360`, which the case pages' back links return to). Quorum is a client project (names changed for confidentiality in the case study); its card shows "Solo product designer · 4–6 months" because no dates were given.
 - Company logos are base64 images cropped from a screenshot (low-res). Replace with
   official logo files in `/public` when available.
 
